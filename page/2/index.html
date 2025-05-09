@@ -28,6 +28,87 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
+
+  <style>
+    
+  .fake-body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* min-height: 100vh; */
+      margin: 20px;
+      /* background-color: #f0f0f0; */
+  }
+
+
+
+
+.text-container {
+  /* align-self: center; */
+    font-size: 0.8rem; /* Adjust size as needed */
+    font-weight: bold;
+    display: flex; /* Allows letters to sit side-by-side */
+    align-items: baseline;
+    height: 100px;
+    /* text color white */
+    color: #ffffff;
+}
+
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 768px) { /* Target screens wider than 768px */
+    .text-container {
+      font-size: 1.6rem; /* Adjust size as needed */
+    }
+}
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 576px) { /* Target screens wider than 768px */
+    .text-container {
+      color:#000000;
+    }
+}
+
+.letter {
+    display: inline-block; /* Important for individual transformations and transitions */
+    transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Default transition for all properties */
+    opacity: 1;
+  	/* height: 20; */
+    width: calc-size(auto, size); /* Or a fixed width if you prefer */
+    overflow: hidden; /* To hide content when width shrinks */
+    margin-right: 0px; /* Optional: adds a little space between letters */
+}
+
+
+.letter ruby rt {
+    font-size: 0.5em;    /* Furigana smaller than base text */
+    line-height: 1.1;    /* Line height for furigana */
+    text-align: center;
+    user-select: none;   /* Optional: prevent selection */
+    /* Browsers usually position <rt> correctly above the base.
+       Avoid manual positioning (top, margin-top) unless absolutely necessary,
+       as it might interfere with baseline calculation. */
+}
+
+/* Styles for the letters that will disappear */
+.letter.disappear {
+    opacity: 0;
+    width: 0px;
+    /* font-size: 0.1em; Shrink font size for a smoother collapse */
+    margin-right: 0; /* Remove margin as it disappears */
+    /* You could also animate padding if you were using it */
+    /* padding-left: 0; */
+    /* padding-right: 0; */
+}
+  </style>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
@@ -44,6 +125,143 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">XGN&#39;s blog</a>
       </h1>
+      
+      <div class="fake-body">
+        <div class="text-container">
+          <span class="letter"><ruby>子<rt><span class="letter letterx">し</span></rt></ruby></span>
+          <span class="letter"><ruby>曰<rt><span class="letter letterx">い</span><span class="letter letterx">わ</span></rt></ruby></span>
+          <span class="letter letterx">く</span>
+          <span class="letter">、</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">び</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">わ</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>罔<rt><span class="letter letterx">く</span><span class="letter letterx">ら</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">、</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">い</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>殆<rt><span class="letter letterx">あ</span><span class="letter letterx">や</span><span class="letter letterx">う</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">。</span>
+        </div>
+      </div>
+      <script>
+        let sentence=[];
+
+        function renderSentence(sentence){
+          let container=document.querySelector('.text-container');
+          container.innerHTML = ''; // Clear the container
+          for (let i = 0; i < sentence.length; i++){
+            container.innerHTML+=(`<span class="letter ${sentence[i].clz}">${sentence[i].text}</span>`);
+          }
+        }
+
+        function kana(ch){
+          return {text:ch, clz:"letter letterx"};
+        }
+
+        function kanji(ch,r1,r2){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}${[...r2].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter"};
+        }
+
+        function kanji2(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter disappear letterx"};
+        }
+        function kanji3(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}</rt></ruby>`, clz:"letter letterx"};
+        }
+        function all(ch){
+          return {text:ch, clz:"letter"};
+        }
+
+        function sentence1(){
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("び"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("わ"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("罔","くら","ㄨㄤˇ"));
+          sentence.push(kana("し"));
+          sentence.push(all("、"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("い"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("ば"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("殆","あやう","ㄉㄞˋ"));
+          sentence.push(kana("し"));
+          sentence.push(all("。"));
+        }
+
+        function sentence2(){
+          // 鶴、九皋に鳴き　聲、天に聞ゆ
+          // 鹤鸣于九皋，声闻于天
+          sentence.push(kanji("鶴","つる","ㄏㄜˋ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("鳴","ㄇㄧㄥˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("九","く","ㄐㄧㄡˇ"));
+          sentence.push(kanji("皋","こう","ㄍㄠ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("鳴","な"));
+          sentence.push(kana("き"));
+          sentence.push(all("　"));
+          sentence.push(kanji("聲","こえ","ㄕㄥ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("聞","ㄨㄣˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("天","てん","ㄊㄧㄢ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("聞","き"));
+          sentence.push(kana("ゆ"));
+          sentence.push(all("。"));
+        }
+        
+        let call=[sentence1, sentence2];
+        call[Math.floor(Math.random()*call.length)]();
+        renderSentence(sentence);
+
+        setInterval(function(){
+          const lettersToDisappear = document.querySelectorAll('.letterx');
+          lettersToDisappear.forEach(letter => {
+              letter.classList.toggle('disappear');
+          });
+        },4000);
+      </script>
+
       
     </div>
     <div id="header-inner" class="inner">
@@ -69,6 +287,54 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-zhao-exam-problem" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2024/06/18/zhao-exam-problem/" class="article-date">
+  <time datetime="2024-06-18T11:49:00.000Z" itemprop="datePublished">2024-06-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/School/">School</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/06/18/zhao-exam-problem/">2024春南京大学信计强基信息与计算科学实践考试题目速报(Prof. Jianhua Zhao)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>120分钟满分100，闭卷。手写代码C++。</p>
+<h1 id="P1"><a href="#P1" class="headerlink" title="P1"></a>P1</h1><p>(10pts) public protected private成员对（类内部、子类、外部、友元）的可见性？</p>
+        
+          <p class="article-more-link">
+            <a href="/2024/06/18/zhao-exam-problem/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaogenintendo.github.io/2024/06/18/zhao-exam-problem/" data-id="cmagyzz3t00b9gsib9ifldx59" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/School/" rel="tag">School</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-zy-exam-problem" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -101,7 +367,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/06/14/zy-exam-problem/" data-id="cm8pgn95800gfv4ib44hy6b1i" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/06/14/zy-exam-problem/" data-id="cmagyzz3u00blgsib7t1bdgjf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/School/" rel="tag">School</a></li></ul>
@@ -149,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/05/17/yzht-3/" data-id="cm8pgn95500fvv4ib11n86x8e" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/05/17/yzht-3/" data-id="cmagyzz3s00b2gsib34xr3myw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OI/" rel="tag">OI</a></li></ul>
@@ -197,7 +463,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/05/17/yzht-2/" data-id="cm8pgn95500fzv4ib4ckc92pe" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/05/17/yzht-2/" data-id="cmagyzz3s00b5gsib3vcldbcv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OI/" rel="tag">OI</a></li></ul>
@@ -245,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/05/16/yzht-1/" data-id="cm8pgn95400fpv4ib1u8ha4mb" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/05/16/yzht-1/" data-id="cmagyzz3r00augsib0n835c1k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OI/" rel="tag">OI</a></li></ul>
@@ -283,7 +549,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h1><p>原文为英文，本文是回忆版。考完收试卷、草稿纸。可以携带一张A4手写笔记。<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex" xmlns="http://www.w3.org/2000/svg" width="12.079ex" height="2.452ex" role="img" focusable="false" viewBox="0 -833.9 5339.1 1083.9" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-1-TEX-I-1D454" d="M311 43Q296 30 267 15T206 0Q143 0 105 45T66 160Q66 265 143 353T314 442Q361 442 401 394L404 398Q406 401 409 404T418 412T431 419T447 422Q461 422 470 413T480 394Q480 379 423 152T363 -80Q345 -134 286 -169T151 -205Q10 -205 10 -137Q10 -111 28 -91T74 -71Q89 -71 102 -80T116 -111Q116 -121 114 -130T107 -144T99 -154T92 -162L90 -164H91Q101 -167 151 -167Q189 -167 211 -155Q234 -144 254 -122T282 -75Q288 -56 298 -13Q311 35 311 43ZM384 328L380 339Q377 350 375 354T369 368T359 382T346 393T328 402T306 405Q262 405 221 352Q191 313 171 233T151 117Q151 38 213 38Q269 38 323 108L331 118L384 328Z"></path><path id="MJX-1-TEX-N-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path id="MJX-1-TEX-N-39" d="M352 287Q304 211 232 211Q154 211 104 270T44 396Q42 412 42 436V444Q42 537 111 606Q171 666 243 666Q245 666 249 666T257 665H261Q273 665 286 663T323 651T370 619T413 560Q456 472 456 334Q456 194 396 97Q361 41 312 10T208 -22Q147 -22 108 7T68 93T121 149Q143 149 158 135T173 96Q173 78 164 65T148 49T135 44L131 43Q131 41 138 37T164 27T206 22H212Q272 22 313 86Q352 142 352 280V287ZM244 248Q292 248 321 297T351 430Q351 508 343 542Q341 552 337 562T323 588T293 615T246 625Q208 625 181 598Q160 576 154 546T147 441Q147 358 152 329T172 282Q197 248 244 248Z"></path><path id="MJX-1-TEX-N-2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path><path id="MJX-1-TEX-N-38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z"></path><path id="MJX-1-TEX-I-1D45A" d="M21 287Q22 293 24 303T36 341T56 388T88 425T132 442T175 435T205 417T221 395T229 376L231 369Q231 367 232 367L243 378Q303 442 384 442Q401 442 415 440T441 433T460 423T475 411T485 398T493 385T497 373T500 364T502 357L510 367Q573 442 659 442Q713 442 746 415T780 336Q780 285 742 178T704 50Q705 36 709 31T724 26Q752 26 776 56T815 138Q818 149 821 151T837 153Q857 153 857 145Q857 144 853 130Q845 101 831 73T785 17T716 -10Q669 -10 648 17T627 73Q627 92 663 193T700 345Q700 404 656 404H651Q565 404 506 303L499 291L466 157Q433 26 428 16Q415 -11 385 -11Q372 -11 364 -4T353 8T350 18Q350 29 384 161L420 307Q423 322 423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 181Q151 335 151 342Q154 357 154 369Q154 405 129 405Q107 405 92 377T69 316T57 280Q55 278 41 278H27Q21 284 21 287Z"></path><path id="MJX-1-TEX-N-2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path><path id="MJX-1-TEX-I-1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"></path><path id="MJX-1-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mi"><use xlink:href="#MJX-1-TEX-I-1D454"></use></g><g data-mml-node="mo" transform="translate(754.8, 0)"><use xlink:href="#MJX-1-TEX-N-3D"></use></g><g data-mml-node="mn" transform="translate(1810.6, 0)"><use xlink:href="#MJX-1-TEX-N-39"></use><use xlink:href="#MJX-1-TEX-N-2E" transform="translate(500, 0)"></use><use xlink:href="#MJX-1-TEX-N-38" transform="translate(778, 0)"></use></g><g data-mml-node="mi" transform="translate(3088.6, 0)"><use xlink:href="#MJX-1-TEX-I-1D45A"></use></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(3966.6, 0)"><g data-mml-node="mo"><use xlink:href="#MJX-1-TEX-N-2F"></use></g></g><g data-mml-node="msup" transform="translate(4466.6, 0)"><g data-mml-node="mi"><use xlink:href="#MJX-1-TEX-I-1D460"></use></g><g data-mml-node="mn" transform="translate(469, 363) scale(0.707)"><use xlink:href="#MJX-1-TEX-N-32"></use></g></g></g></g></svg></mjx-container></p>
+        <h1 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h1><p>原文为英文，本文是回忆版。考完收试卷、草稿纸。可以携带一张A4手写笔记。<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex" xmlns="http://www.w3.org/2000/svg" width="12.079ex" height="2.452ex" role="img" focusable="false" viewBox="0 -833.9 5339.1 1083.9" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-3-TEX-I-1D454" d="M311 43Q296 30 267 15T206 0Q143 0 105 45T66 160Q66 265 143 353T314 442Q361 442 401 394L404 398Q406 401 409 404T418 412T431 419T447 422Q461 422 470 413T480 394Q480 379 423 152T363 -80Q345 -134 286 -169T151 -205Q10 -205 10 -137Q10 -111 28 -91T74 -71Q89 -71 102 -80T116 -111Q116 -121 114 -130T107 -144T99 -154T92 -162L90 -164H91Q101 -167 151 -167Q189 -167 211 -155Q234 -144 254 -122T282 -75Q288 -56 298 -13Q311 35 311 43ZM384 328L380 339Q377 350 375 354T369 368T359 382T346 393T328 402T306 405Q262 405 221 352Q191 313 171 233T151 117Q151 38 213 38Q269 38 323 108L331 118L384 328Z"></path><path id="MJX-3-TEX-N-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path id="MJX-3-TEX-N-39" d="M352 287Q304 211 232 211Q154 211 104 270T44 396Q42 412 42 436V444Q42 537 111 606Q171 666 243 666Q245 666 249 666T257 665H261Q273 665 286 663T323 651T370 619T413 560Q456 472 456 334Q456 194 396 97Q361 41 312 10T208 -22Q147 -22 108 7T68 93T121 149Q143 149 158 135T173 96Q173 78 164 65T148 49T135 44L131 43Q131 41 138 37T164 27T206 22H212Q272 22 313 86Q352 142 352 280V287ZM244 248Q292 248 321 297T351 430Q351 508 343 542Q341 552 337 562T323 588T293 615T246 625Q208 625 181 598Q160 576 154 546T147 441Q147 358 152 329T172 282Q197 248 244 248Z"></path><path id="MJX-3-TEX-N-2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path><path id="MJX-3-TEX-N-38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z"></path><path id="MJX-3-TEX-I-1D45A" d="M21 287Q22 293 24 303T36 341T56 388T88 425T132 442T175 435T205 417T221 395T229 376L231 369Q231 367 232 367L243 378Q303 442 384 442Q401 442 415 440T441 433T460 423T475 411T485 398T493 385T497 373T500 364T502 357L510 367Q573 442 659 442Q713 442 746 415T780 336Q780 285 742 178T704 50Q705 36 709 31T724 26Q752 26 776 56T815 138Q818 149 821 151T837 153Q857 153 857 145Q857 144 853 130Q845 101 831 73T785 17T716 -10Q669 -10 648 17T627 73Q627 92 663 193T700 345Q700 404 656 404H651Q565 404 506 303L499 291L466 157Q433 26 428 16Q415 -11 385 -11Q372 -11 364 -4T353 8T350 18Q350 29 384 161L420 307Q423 322 423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 181Q151 335 151 342Q154 357 154 369Q154 405 129 405Q107 405 92 377T69 316T57 280Q55 278 41 278H27Q21 284 21 287Z"></path><path id="MJX-3-TEX-N-2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path><path id="MJX-3-TEX-I-1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"></path><path id="MJX-3-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mi"><use xlink:href="#MJX-3-TEX-I-1D454"></use></g><g data-mml-node="mo" transform="translate(754.8, 0)"><use xlink:href="#MJX-3-TEX-N-3D"></use></g><g data-mml-node="mn" transform="translate(1810.6, 0)"><use xlink:href="#MJX-3-TEX-N-39"></use><use xlink:href="#MJX-3-TEX-N-2E" transform="translate(500, 0)"></use><use xlink:href="#MJX-3-TEX-N-38" transform="translate(778, 0)"></use></g><g data-mml-node="mi" transform="translate(3088.6, 0)"><use xlink:href="#MJX-3-TEX-I-1D45A"></use></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(3966.6, 0)"><g data-mml-node="mo"><use xlink:href="#MJX-3-TEX-N-2F"></use></g></g><g data-mml-node="msup" transform="translate(4466.6, 0)"><g data-mml-node="mi"><use xlink:href="#MJX-3-TEX-I-1D460"></use></g><g data-mml-node="mn" transform="translate(469, 363) scale(0.707)"><use xlink:href="#MJX-3-TEX-N-32"></use></g></g></g></g></svg></mjx-container></p>
 <p><img src="https://blog.hellholestudios.top/wp-content/uploads/2024/05/dog.png"><br><em>▲The Dog of Yachong Guo</em></p>
         
           <p class="article-more-link">
@@ -293,7 +559,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/05/12/gyc-midterm-problem/" data-id="cm8pgn93p0029v4ib80geajn6" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/05/12/gyc-midterm-problem/" data-id="cmagyzz2s0032gsib6kmohw34" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/School/" rel="tag">School</a></li></ul>
@@ -341,7 +607,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/04/15/mytrip-release/" data-id="cm8pgn9450052v4ibbv9n9obu" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/04/15/mytrip-release/" data-id="cmagyzz34005ngsib5pph149j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dev/" rel="tag">Dev</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Release/" rel="tag">Release</a></li></ul>
@@ -389,7 +655,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/04/01/2024-april-fool/" data-id="cm8pgn93a0005v4ibfurrd7zu" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/04/01/2024-april-fool/" data-id="cmagyzz29000egsibcech6tq4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
@@ -441,7 +707,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2024/03/21/shanghai-in-caligine/" data-id="cm8pgn94u00dnv4ibg06t51ne" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2024/03/21/shanghai-in-caligine/" data-id="cmagyzz3g008bgsibdm66benm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
@@ -489,62 +755,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2023/12/23/tierlist-nju-class-1-1/" data-id="cm8pgn94x00e8v4ib709vd26n" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2023/12/23/tierlist-nju-class-1-1/" data-id="cmagyzz3j008zgsib95wkb4fv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Cakeslice1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2023/08/17/Cakeslice1/" class="article-date">
-  <time datetime="2023-08-17T14:03:00.000Z" itemprop="datePublished">2023-08-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Literature/">Literature</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/08/17/Cakeslice1/">Cakeslice No.1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>This is the <em>Cakeslice</em> series, a series focusing on writing Chinese short stories <del>that appeal to myself only</del>.</p>
-<h1 id="本期出场角色"><a href="#本期出场角色" class="headerlink" title="本期出场角色"></a>本期出场角色</h1><ul>
-<li>Midori 青缘<br>研究着古代精灵族的遗迹与技术的龙之少女。虽然没有着能走在前列的智力，但仍然把分析和计算作为坚持着的爱好，经常整日整夜的沉浸在算数推理之中。</li>
-<li>Massao 青墨<br>富有浪漫感、文采和情趣的龙之少年。青缘的哥哥。作为吟游诗人的他，平常以浪迹天涯、作诗饮酒为乐，虽然深爱着自己的妹妹，但是有相当一部分时间两人之间有着物理上等的距离。</li>
-</ul>
-<h1 id="本篇"><a href="#本篇" class="headerlink" title="本篇"></a>本篇</h1><p>放眼无边的天空，是龙族的天堂；散落天穹的浮岛，是龙族的归宿。在此处，凡人仰望星空方可所见之物，不过是每日伴侣般的触手可及；世人千万年才得以涉足之地，不过是如往邻里亲戚般来去自由。在这无数的浮岛上，诞生着无穷的物语，请允许我以一个普通的旁观者的视角，去讲述这个故事。</p>
-        
-          <p class="article-more-link">
-            <a href="/2023/08/17/Cakeslice1/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2023/08/17/Cakeslice1/" data-id="cm8pgn93f000fv4ibcf7808wh" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cakeslice/" rel="tag">Cakeslice</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OC/" rel="tag">OC</a></li></ul>
 
     </footer>
   </div>

@@ -28,6 +28,87 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
+
+  <style>
+    
+  .fake-body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* min-height: 100vh; */
+      margin: 20px;
+      /* background-color: #f0f0f0; */
+  }
+
+
+
+
+.text-container {
+  /* align-self: center; */
+    font-size: 0.8rem; /* Adjust size as needed */
+    font-weight: bold;
+    display: flex; /* Allows letters to sit side-by-side */
+    align-items: baseline;
+    height: 100px;
+    /* text color white */
+    color: #ffffff;
+}
+
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 768px) { /* Target screens wider than 768px */
+    .text-container {
+      font-size: 1.6rem; /* Adjust size as needed */
+    }
+}
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 576px) { /* Target screens wider than 768px */
+    .text-container {
+      color:#000000;
+    }
+}
+
+.letter {
+    display: inline-block; /* Important for individual transformations and transitions */
+    transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Default transition for all properties */
+    opacity: 1;
+  	/* height: 20; */
+    width: calc-size(auto, size); /* Or a fixed width if you prefer */
+    overflow: hidden; /* To hide content when width shrinks */
+    margin-right: 0px; /* Optional: adds a little space between letters */
+}
+
+
+.letter ruby rt {
+    font-size: 0.5em;    /* Furigana smaller than base text */
+    line-height: 1.1;    /* Line height for furigana */
+    text-align: center;
+    user-select: none;   /* Optional: prevent selection */
+    /* Browsers usually position <rt> correctly above the base.
+       Avoid manual positioning (top, margin-top) unless absolutely necessary,
+       as it might interfere with baseline calculation. */
+}
+
+/* Styles for the letters that will disappear */
+.letter.disappear {
+    opacity: 0;
+    width: 0px;
+    /* font-size: 0.1em; Shrink font size for a smoother collapse */
+    margin-right: 0; /* Remove margin as it disappears */
+    /* You could also animate padding if you were using it */
+    /* padding-left: 0; */
+    /* padding-right: 0; */
+}
+  </style>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
@@ -44,6 +125,143 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">XGN&#39;s blog</a>
       </h1>
+      
+      <div class="fake-body">
+        <div class="text-container">
+          <span class="letter"><ruby>子<rt><span class="letter letterx">し</span></rt></ruby></span>
+          <span class="letter"><ruby>曰<rt><span class="letter letterx">い</span><span class="letter letterx">わ</span></rt></ruby></span>
+          <span class="letter letterx">く</span>
+          <span class="letter">、</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">び</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">わ</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>罔<rt><span class="letter letterx">く</span><span class="letter letterx">ら</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">、</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">い</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>殆<rt><span class="letter letterx">あ</span><span class="letter letterx">や</span><span class="letter letterx">う</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">。</span>
+        </div>
+      </div>
+      <script>
+        let sentence=[];
+
+        function renderSentence(sentence){
+          let container=document.querySelector('.text-container');
+          container.innerHTML = ''; // Clear the container
+          for (let i = 0; i < sentence.length; i++){
+            container.innerHTML+=(`<span class="letter ${sentence[i].clz}">${sentence[i].text}</span>`);
+          }
+        }
+
+        function kana(ch){
+          return {text:ch, clz:"letter letterx"};
+        }
+
+        function kanji(ch,r1,r2){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}${[...r2].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter"};
+        }
+
+        function kanji2(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter disappear letterx"};
+        }
+        function kanji3(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}</rt></ruby>`, clz:"letter letterx"};
+        }
+        function all(ch){
+          return {text:ch, clz:"letter"};
+        }
+
+        function sentence1(){
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("び"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("わ"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("罔","くら","ㄨㄤˇ"));
+          sentence.push(kana("し"));
+          sentence.push(all("、"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("い"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("ば"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("殆","あやう","ㄉㄞˋ"));
+          sentence.push(kana("し"));
+          sentence.push(all("。"));
+        }
+
+        function sentence2(){
+          // 鶴、九皋に鳴き　聲、天に聞ゆ
+          // 鹤鸣于九皋，声闻于天
+          sentence.push(kanji("鶴","つる","ㄏㄜˋ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("鳴","ㄇㄧㄥˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("九","く","ㄐㄧㄡˇ"));
+          sentence.push(kanji("皋","こう","ㄍㄠ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("鳴","な"));
+          sentence.push(kana("き"));
+          sentence.push(all("　"));
+          sentence.push(kanji("聲","こえ","ㄕㄥ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("聞","ㄨㄣˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("天","てん","ㄊㄧㄢ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("聞","き"));
+          sentence.push(kana("ゆ"));
+          sentence.push(all("。"));
+        }
+        
+        let call=[sentence1, sentence2];
+        call[Math.floor(Math.random()*call.length)]();
+        renderSentence(sentence);
+
+        setInterval(function(){
+          const lettersToDisappear = document.querySelectorAll('.letterx');
+          lettersToDisappear.forEach(letter => {
+              letter.classList.toggle('disappear');
+          });
+        },4000);
+      </script>
+
       
     </div>
     <div id="header-inner" class="inner">
@@ -69,6 +287,57 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-tho21-diary" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/01/01/tho21-diary/" class="article-date">
+  <time datetime="2022-01-01T12:47:00.000Z" itemprop="datePublished">2022-01-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Diary/">Diary</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/01/01/tho21-diary/">NJTHO 2021 游记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>「日月如梭，白驹过隙」，想到小学学习成语的时候这两个词是连着学习的，如今记忆仍然十分深刻。不知不觉间，一年的时光又过去了，又到了新年终点站前的收费亭，也就是每年的南京THO。</p>
+<p>南京THO和其他THO（which 大多数都在暑假举办）不同，放在了一个学生友好（？）的时间。</p>
+<p>今年同行的是Zzzyt（Zt君）和ZhukyRLG君（Z君）。这次顺便帮助yjh（Y君）代购东西。</p>
+<p>非常不巧的是，笔者的WIndows笔记本不幸进水正在维修，只能使用备用 Mac写这篇文章，也没法使用USB和光驱。（USB线已丢）</p>
+<h2 id="上午场"><a href="#上午场" class="headerlink" title="上午场"></a>上午场</h2><p>在无聊的语文课结束后，我便出发前往圣地稻香音乐空间。穿了许多衣服确实能够抵御严寒，但是露出来的手和「手无寸铁」的脚便冷的不行。到达时间大概是10:20分，看到许多人还正在外面排队入场，还有带着猫耳的工作人员一边哆嗦着“快点早点关门啊”一边检查健康码和入场券。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/01/01/tho21-diary/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaogenintendo.github.io/2022/01/01/tho21-diary/" data-id="cmagyzz3i008rgsib1q0zfiu1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-random-diary-8" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -110,7 +379,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/12/12/random-diary-8/" data-id="cm8pgn94c006pv4iben6905lg" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/12/12/random-diary-8/" data-id="cmagyzz3d007jgsibhx1och19" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
@@ -160,7 +429,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/11/15/oc-index/" data-id="cm8pgn949005yv4ibffhfeao1" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/11/15/oc-index/" data-id="cmagyzz38006bgsibeamhhun8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OC/" rel="tag">OC</a></li></ul>
@@ -211,7 +480,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/10/22/unweekly-10/" data-id="cm8pgn94x00ecv4ibcfr7fja0" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/10/22/unweekly-10/" data-id="cmagyzz3l009igsibb3t3eysh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
@@ -267,7 +536,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/10/11/unweekly-9/" data-id="cm8pgn95200fgv4ib6tcqgtm3" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/10/11/unweekly-9/" data-id="cmagyzz3p00ahgsibd5zch2cr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
@@ -323,7 +592,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/10/06/linggusi-diary/" data-id="cm8pgn942004mv4ib86ae2k5l" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/10/06/linggusi-diary/" data-id="cmagyzz32005cgsib485e6uhb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
@@ -377,7 +646,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/09/25/random-diary-7/" data-id="cm8pgn94v00dtv4ib65am9dzt" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/09/25/random-diary-7/" data-id="cmagyzz3c007fgsib9v787wd5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
@@ -428,7 +697,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/09/18/random-diary-6/" data-id="cm8pgn94t00djv4ibejw32y4q" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/09/18/random-diary-6/" data-id="cmagyzz3c007bgsib5qci249k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
@@ -481,7 +750,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/08/29/unweekly-8/" data-id="cm8pgn95200fdv4ibhs96hhhg" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/08/29/unweekly-8/" data-id="cmagyzz3p00aegsib6yttbd7g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
@@ -538,57 +807,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/08/15/random-diary-5/" data-id="cm8pgn94b006lv4ib1qt1a61f" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/08/15/random-diary-5/" data-id="cmagyzz3c0077gsibg9on7nom" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-touhou-sort-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/08/03/touhou-sort-1/" class="article-date">
-  <time datetime="2021-08-03T11:18:00.000Z" itemprop="datePublished">2021-08-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Game/">Game</a>►<a class="article-category-link" href="/categories/Game/Touhou/">Touhou</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/03/touhou-sort-1/">Touhou Sort No. 1 Result</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Today I take part in the <a target="_blank" rel="noopener" href="https://relick.me/song/">Touhou song sorting</a> and <a target="_blank" rel="noopener" href="https://tohosort.frelia.my/">character sorting game</a>.</p>
-        
-          <p class="article-more-link">
-            <a href="/2021/08/03/touhou-sort-1/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/08/03/touhou-sort-1/" data-id="cm8pgn94y00efv4ib0zzugpn3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Touhou/" rel="tag">Touhou</a></li></ul>
 
     </footer>
   </div>

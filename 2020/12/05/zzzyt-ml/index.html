@@ -36,6 +36,87 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
+
+  <style>
+    
+  .fake-body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* min-height: 100vh; */
+      margin: 20px;
+      /* background-color: #f0f0f0; */
+  }
+
+
+
+
+.text-container {
+  /* align-self: center; */
+    font-size: 0.8rem; /* Adjust size as needed */
+    font-weight: bold;
+    display: flex; /* Allows letters to sit side-by-side */
+    align-items: baseline;
+    height: 100px;
+    /* text color white */
+    color: #ffffff;
+}
+
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 768px) { /* Target screens wider than 768px */
+    .text-container {
+      font-size: 1.6rem; /* Adjust size as needed */
+    }
+}
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 576px) { /* Target screens wider than 768px */
+    .text-container {
+      color:#000000;
+    }
+}
+
+.letter {
+    display: inline-block; /* Important for individual transformations and transitions */
+    transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Default transition for all properties */
+    opacity: 1;
+  	/* height: 20; */
+    width: calc-size(auto, size); /* Or a fixed width if you prefer */
+    overflow: hidden; /* To hide content when width shrinks */
+    margin-right: 0px; /* Optional: adds a little space between letters */
+}
+
+
+.letter ruby rt {
+    font-size: 0.5em;    /* Furigana smaller than base text */
+    line-height: 1.1;    /* Line height for furigana */
+    text-align: center;
+    user-select: none;   /* Optional: prevent selection */
+    /* Browsers usually position <rt> correctly above the base.
+       Avoid manual positioning (top, margin-top) unless absolutely necessary,
+       as it might interfere with baseline calculation. */
+}
+
+/* Styles for the letters that will disappear */
+.letter.disappear {
+    opacity: 0;
+    width: 0px;
+    /* font-size: 0.1em; Shrink font size for a smoother collapse */
+    margin-right: 0; /* Remove margin as it disappears */
+    /* You could also animate padding if you were using it */
+    /* padding-left: 0; */
+    /* padding-right: 0; */
+}
+  </style>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
@@ -52,6 +133,143 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">XGN&#39;s blog</a>
       </h1>
+      
+      <div class="fake-body">
+        <div class="text-container">
+          <span class="letter"><ruby>子<rt><span class="letter letterx">し</span></rt></ruby></span>
+          <span class="letter"><ruby>曰<rt><span class="letter letterx">い</span><span class="letter letterx">わ</span></rt></ruby></span>
+          <span class="letter letterx">く</span>
+          <span class="letter">、</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">び</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">わ</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>罔<rt><span class="letter letterx">く</span><span class="letter letterx">ら</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">、</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">い</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>殆<rt><span class="letter letterx">あ</span><span class="letter letterx">や</span><span class="letter letterx">う</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">。</span>
+        </div>
+      </div>
+      <script>
+        let sentence=[];
+
+        function renderSentence(sentence){
+          let container=document.querySelector('.text-container');
+          container.innerHTML = ''; // Clear the container
+          for (let i = 0; i < sentence.length; i++){
+            container.innerHTML+=(`<span class="letter ${sentence[i].clz}">${sentence[i].text}</span>`);
+          }
+        }
+
+        function kana(ch){
+          return {text:ch, clz:"letter letterx"};
+        }
+
+        function kanji(ch,r1,r2){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}${[...r2].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter"};
+        }
+
+        function kanji2(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter disappear letterx"};
+        }
+        function kanji3(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}</rt></ruby>`, clz:"letter letterx"};
+        }
+        function all(ch){
+          return {text:ch, clz:"letter"};
+        }
+
+        function sentence1(){
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("び"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("わ"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("罔","くら","ㄨㄤˇ"));
+          sentence.push(kana("し"));
+          sentence.push(all("、"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("い"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("ば"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("殆","あやう","ㄉㄞˋ"));
+          sentence.push(kana("し"));
+          sentence.push(all("。"));
+        }
+
+        function sentence2(){
+          // 鶴、九皋に鳴き　聲、天に聞ゆ
+          // 鹤鸣于九皋，声闻于天
+          sentence.push(kanji("鶴","つる","ㄏㄜˋ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("鳴","ㄇㄧㄥˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("九","く","ㄐㄧㄡˇ"));
+          sentence.push(kanji("皋","こう","ㄍㄠ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("鳴","な"));
+          sentence.push(kana("き"));
+          sentence.push(all("　"));
+          sentence.push(kanji("聲","こえ","ㄕㄥ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("聞","ㄨㄣˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("天","てん","ㄊㄧㄢ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("聞","き"));
+          sentence.push(kana("ゆ"));
+          sentence.push(all("。"));
+        }
+        
+        let call=[sentence1, sentence2];
+        call[Math.floor(Math.random()*call.length)]();
+        renderSentence(sentence);
+
+        setInterval(function(){
+          const lettersToDisappear = document.querySelectorAll('.letterx');
+          lettersToDisappear.forEach(letter => {
+              letter.classList.toggle('disappear');
+          });
+        },4000);
+      </script>
+
       
     </div>
     <div id="header-inner" class="inner">
@@ -117,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2020/12/05/zzzyt-ml/" data-id="cm8pgn95800gmv4ib4ym7c4ku" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2020/12/05/zzzyt-ml/" data-id="cmagyzz3v00bpgsib55ec1svz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CreateML/" rel="tag">CreateML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dev/" rel="tag">Dev</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Release/" rel="tag">Release</a></li></ul>
