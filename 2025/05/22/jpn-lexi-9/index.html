@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>日语词汇学笔记[9] ——国字和表记基准 | XGN&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="国字Noyuki 「国字（こくじ）是日本人按照“六书”中的方法，特别是会意的方法创造出来的汉字，用来表达日本特有的概念。因此，国字多见于鱼、草、木等。例如：樫（かし）显然指的是某种“坚硬的树木”、鱈（だら）指的是下雪的时候出现的鱼。你猜猜，总共有多少国字？」 Midori 「我猜100多个吧，毕竟汉字本身就有那么多，应该很多东西都能找到已经有的汉字的描述吧。」 Noyuki 「其实总共有1500多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日语词汇学笔记[9] ——国字和表记基准">
+<meta property="og:url" content="https://xiaogenintendo.github.io/2025/05/22/jpn-lexi-9/index.html">
+<meta property="og:site_name" content="XGN&#39;s blog">
+<meta property="og:description" content="国字Noyuki 「国字（こくじ）是日本人按照“六书”中的方法，特别是会意的方法创造出来的汉字，用来表达日本特有的概念。因此，国字多见于鱼、草、木等。例如：樫（かし）显然指的是某种“坚硬的树木”、鱈（だら）指的是下雪的时候出现的鱼。你猜猜，总共有多少国字？」 Midori 「我猜100多个吧，毕竟汉字本身就有那么多，应该很多东西都能找到已经有的汉字的描述吧。」 Noyuki 「其实总共有1500多">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-05-22T03:24:00.000Z">
+<meta property="article:modified_time" content="2025-07-23T03:51:46.524Z">
+<meta property="article:author" content="XGN">
+<meta property="article:tag" content="Chinese">
+<meta property="article:tag" content="Linguistic">
+<meta property="article:tag" content="Japanese">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="XGN&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  <style>
+    
+  .fake-body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* min-height: 100vh; */
+      margin: 20px;
+      /* background-color: #f0f0f0; */
+  }
+
+
+
+
+.text-container {
+  /* align-self: center; */
+    font-size: 0.8rem; /* Adjust size as needed */
+    font-weight: bold;
+    display: flex; /* Allows letters to sit side-by-side */
+    align-items: baseline;
+    height: 100px;
+    /* text color white */
+    color: #ffffff;
+}
+
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 768px) { /* Target screens wider than 768px */
+    .text-container {
+      font-size: 1.6rem; /* Adjust size as needed */
+    }
+}
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 576px) { /* Target screens wider than 768px */
+    .text-container {
+      color:#000000;
+    }
+}
+
+.letter {
+    display: inline-block; /* Important for individual transformations and transitions */
+    transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Default transition for all properties */
+    opacity: 1;
+  	/* height: 20; */
+    width: calc-size(auto, size); /* Or a fixed width if you prefer */
+    overflow: hidden; /* To hide content when width shrinks */
+    margin-right: 0px; /* Optional: adds a little space between letters */
+}
+
+
+.letter ruby rt {
+    font-size: 0.5em;    /* Furigana smaller than base text */
+    line-height: 1.1;    /* Line height for furigana */
+    text-align: center;
+    user-select: none;   /* Optional: prevent selection */
+    /* Browsers usually position <rt> correctly above the base.
+       Avoid manual positioning (top, margin-top) unless absolutely necessary,
+       as it might interfere with baseline calculation. */
+}
+
+/* Styles for the letters that will disappear */
+.letter.disappear {
+    opacity: 0;
+    width: 0px;
+    /* font-size: 0.1em; Shrink font size for a smoother collapse */
+    margin-right: 0; /* Remove margin as it disappears */
+    /* You could also animate padding if you were using it */
+    /* padding-left: 0; */
+    /* padding-right: 0; */
+}
+  </style>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">XGN&#39;s blog</a>
+      </h1>
+      
+      <div class="fake-body">
+        <div class="text-container">
+          <span class="letter"><ruby>子<rt><span class="letter letterx">し</span></rt></ruby></span>
+          <span class="letter"><ruby>曰<rt><span class="letter letterx">い</span><span class="letter letterx">わ</span></rt></ruby></span>
+          <span class="letter letterx">く</span>
+          <span class="letter">、</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">び</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">わ</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>罔<rt><span class="letter letterx">く</span><span class="letter letterx">ら</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">、</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">い</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>殆<rt><span class="letter letterx">あ</span><span class="letter letterx">や</span><span class="letter letterx">う</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">。</span>
+        </div>
+      </div>
+      <script>
+        let sentence=[];
+
+        function renderSentence(sentence){
+          let container=document.querySelector('.text-container');
+          container.innerHTML = ''; // Clear the container
+          for (let i = 0; i < sentence.length; i++){
+            container.innerHTML+=(`<span class="letter ${sentence[i].clz}">${sentence[i].text}</span>`);
+          }
+        }
+
+        function kana(ch){
+          return {text:ch, clz:"letter letterx"};
+        }
+
+        function kanji(ch,r1,r2){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}${[...r2].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter"};
+        }
+
+        function kanji2(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter disappear letterx"};
+        }
+        function kanji3(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}</rt></ruby>`, clz:"letter letterx"};
+        }
+        function all(ch){
+          return {text:ch, clz:"letter"};
+        }
+
+        function sentence1(){
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("び"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("わ"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("罔","くら","ㄨㄤˇ"));
+          sentence.push(kana("し"));
+          sentence.push(all("、"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("い"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("ば"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("殆","あやう","ㄉㄞˋ"));
+          sentence.push(kana("し"));
+          sentence.push(all("。"));
+        }
+
+        function sentence2(){
+          // 鶴、九皋に鳴き　聲、天に聞ゆ
+          // 鹤鸣于九皋，声闻于天
+          sentence.push(kanji("鶴","つる","ㄏㄜˋ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("鳴","ㄇㄧㄥˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("九","く","ㄐㄧㄡˇ"));
+          sentence.push(kanji("皋","こう","ㄍㄠ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("鳴","な"));
+          sentence.push(kana("き"));
+          sentence.push(all("　"));
+          sentence.push(kanji("聲","こえ","ㄕㄥ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("聞","ㄨㄣˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("天","てん","ㄊㄧㄢ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("聞","き"));
+          sentence.push(kana("ゆ"));
+          sentence.push(all("。"));
+        }
+        
+        function sentence3(){
+          // 子曰く、故（ふる）きを温（たず）ねて新しきを知る、以って師と為るべし。
+          // 子曰、温故而知新、可以為師矣。
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji2("温","ㄨㄣ"))
+          sentence.push(kanji("故","ふる","ㄍㄨˋ"))
+          sentence.push(kana("き"));
+          sentence.push(kana("を"));
+          sentence.push(kanji3("温","たず"));
+          sentence.push(kana("ね"));
+          sentence.push(kana("て"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("知","ㄓ"));
+          sentence.push(kanji("新","あたら","ㄒㄧㄣ"));
+          sentence.push(kana("し"));
+          sentence.push(kana("き"));
+          sentence.push(kana("を"));
+          sentence.push(kanji3("知","し"));
+          sentence.push(kana("る"));
+          sentence.push(all("、"));
+          sentence.push(kanji2("可","ㄎㄜˇ"));
+          sentence.push(kanji("以","も","ㄧˇ"));
+          sentence.push(kana("っ"));
+          sentence.push(kana("て"));
+          sentence.push(kanji2("為","ㄨㄟˊ"));
+          sentence.push(kanji("師","し","ㄕ"));
+          sentence.push(kana("と"));
+          sentence.push(kanji3("為","な"));
+          sentence.push(kana("る"));
+          sentence.push(kana("べ"));
+          sentence.push(kana("し"));
+          sentence.push(kanji2("矣","ㄧˇ"));
+          sentence.push(all("。"));
+        }
+
+        let call=[sentence1, sentence2,sentence3];
+        call[Math.floor(Math.random()*call.length)]();
+        renderSentence(sentence);
+
+        setInterval(function(){
+          const lettersToDisappear = document.querySelectorAll('.letterx');
+          lettersToDisappear.forEach(letter => {
+              letter.classList.toggle('disappear');
+          });
+        },4000);
+      </script>
+
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://xiaogenintendo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-jpn-lexi-9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/05/22/jpn-lexi-9/" class="article-date">
+  <time datetime="2025-05-22T03:24:00.000Z" itemprop="datePublished">2025-05-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linguistic/">Linguistic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      日语词汇学笔记[9] ——国字和表记基准
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="国字"><a href="#国字" class="headerlink" title="国字"></a>国字</h1><p>Noyuki 「国字（こくじ）是日本人按照“六书”中的方法，特别是会意的方法创造出来的汉字，用来表达日本特有的概念。因此，国字多见于鱼、草、木等。例如：樫（かし）显然指的是某种“坚硬的树木”、鱈（だら）指的是下雪的时候出现的鱼。你猜猜，总共有多少国字？」</p>
+<p>Midori 「我猜100多个吧，毕竟汉字本身就有那么多，应该很多东西都能找到已经有的汉字的描述吧。」</p>
+<p>Noyuki 「其实总共有1500多个哦！」</p>
+<p>Midori 「这么多啊？」</p>
+<p>Noyuki 「对对，不过，现在在常用汉字表里的有多少国字你知道吗？」</p>
+<span id="more"></span>
+<p>Midori 「1500个的话……我猜几十个吧，毕竟有很多鱼嘛」</p>
+<p>Noyuki 「戳啦～只有十个哦：匂（にお）、働（はたら）、塀（へい）、峠（とうげ）、込（こ）、枠（わく）、栃（とち）、搾（しぼ）、畑（はたけ）、腺（せん）」</p>
+<p>Midori 「真是造了很多没用的呢……」</p>
+<p>Noyuki 「虽然很多不常用，但是去吃寿司、看地名的时候还是很多能见得到的呢。也是日语的文化的一部分。」</p>
+<h1 id="表记基准"><a href="#表记基准" class="headerlink" title="表记基准"></a>表记基准</h1><p><em>注：Noyuki和Midori生活的时代早已不是21世纪，以下内容有点不符合设定emm</em></p>
+<p>Noyuki 「接下来我们讲讲日语的表记基准。刚刚我们提到了常用汉字表，常用汉字表诞生于1981年，他的前生是1946年诞生的当用汉字表。这两个汉字表的诞生历史你可以自己搜索一下，不在本课程范围内。总之这些汉字表都告诉大家“日常生活中，我们只能用这些汉字哦！”，并且做了很多规范化。除此之外，还有一个人名用汉字别表，规定了哪些常用汉字外的汉字可以被用于人名中。」</p>
+<p>Noyuki 「但是，搞笑的是，人名用汉字别表没有规定读音，于是就有了写作光宙读作pikachu的神人名字，这些名字叫做キラキラネーム。这一点近些年才有更详细的规定。」</p>
+<p>Noyuki 「此外，还有关于公文中汉字使用的规定、送假名的书写规范规定（1973）、现代假名遣（1946、1986）、外来语表记规范（1991）……」</p>
+<p>Midori 「诶？都这么晚吗！」</p>
+<p>Noyuki 「是的，所以我们现在所知的“现代日本语”其实都是上世纪后半的产物，是不是很神奇？在那之前，你能看到各种各样的假名按照各种各样的方式读，特例也一大堆，汉字的使用方法也没有统一，外来语更是翻译的五花八门。近年来有很多采访老年人的综艺节目，就会发现他们的“日语”和你知道的“日语”不是一个东西，还是很震惊的。」</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaogenintendo.github.io/2025/05/22/jpn-lexi-9/" data-id="cmdffwnlg0054lgibct1h3l7s" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Japanese/" rel="tag">Japanese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linguistic/" rel="tag">Linguistic</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/05/26/jpn-lexi-e2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          日语词汇学笔记[Ex. 2] ——役割语补充
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/04/24/jpn-lexi-e1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">日语词汇学笔记[Ex. 1] ——汉语入声的处理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/">Dev</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Apple/">Apple</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/DS/">DS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/MC-Mod/">MC Mod</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Web/">Web</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Unweekly/">Unweekly</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Mahjong/">Mahjong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Osu/">Osu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Touhou/">Touhou</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linguistic/">Linguistic</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Linguistic/Random/">Random</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/">Literature</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/OC-Setting/">OC Setting</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/Segicverse/">Segicverse</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/OBCYSIO/">OBCYSIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/School/">School</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tip/">Tip</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Update/">Update</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cakeslice/" rel="tag">Cakeslice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CreateML/" rel="tag">CreateML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/" rel="tag">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Japanese/" rel="tag">Japanese</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSS-Short/" rel="tag">LSS Short</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linguistic/" rel="tag">Linguistic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mahjong/" rel="tag">Mahjong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Minecraft/" rel="tag">Minecraft</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OBCYSIO/" rel="tag">OBCYSIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OC/" rel="tag">OC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OI/" rel="tag">OI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Osu/" rel="tag">Osu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release/" rel="tag">Release</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ryujin/" rel="tag">Ryujin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/School/" rel="tag">School</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Segicverse/" rel="tag">Segicverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test-Blog/" rel="tag">Test Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touhou/" rel="tag">Touhou</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZKY/" rel="tag">ZKY</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Cakeslice/" style="font-size: 10px;">Cakeslice</a> <a href="/tags/Chinese/" style="font-size: 20px;">Chinese</a> <a href="/tags/CreateML/" style="font-size: 10px;">CreateML</a> <a href="/tags/Dev/" style="font-size: 16.67px;">Dev</a> <a href="/tags/English/" style="font-size: 19.17px;">English</a> <a href="/tags/Japanese/" style="font-size: 15.83px;">Japanese</a> <a href="/tags/Java/" style="font-size: 12.5px;">Java</a> <a href="/tags/LSS-Short/" style="font-size: 12.5px;">LSS Short</a> <a href="/tags/Linguistic/" style="font-size: 15.83px;">Linguistic</a> <a href="/tags/Mahjong/" style="font-size: 10px;">Mahjong</a> <a href="/tags/Minecraft/" style="font-size: 10px;">Minecraft</a> <a href="/tags/OBCYSIO/" style="font-size: 13.33px;">OBCYSIO</a> <a href="/tags/OC/" style="font-size: 18.33px;">OC</a> <a href="/tags/OI/" style="font-size: 17.5px;">OI</a> <a href="/tags/Osu/" style="font-size: 10px;">Osu</a> <a href="/tags/Release/" style="font-size: 15px;">Release</a> <a href="/tags/Ryujin/" style="font-size: 14.17px;">Ryujin</a> <a href="/tags/School/" style="font-size: 12.5px;">School</a> <a href="/tags/Segicverse/" style="font-size: 11.67px;">Segicverse</a> <a href="/tags/Test-Blog/" style="font-size: 10.83px;">Test Blog</a> <a href="/tags/Touhou/" style="font-size: 12.5px;">Touhou</a> <a href="/tags/ZKY/" style="font-size: 12.5px;">ZKY</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">September 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/06/16/jpn-lexi-10/">日语词汇学笔记[10] ——单词的性质</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/30/random-jpn-1/">Random Japanese No. 1 来自西瓜的联想</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/26/jpn-lexi-e2/">日语词汇学笔记[Ex. 2] ——役割语补充</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/22/jpn-lexi-9/">日语词汇学笔记[9] ——国字和表记基准</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/24/jpn-lexi-e1/">日语词汇学笔记[Ex. 1] ——汉语入声的处理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 XGN<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

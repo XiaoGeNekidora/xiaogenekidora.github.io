@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JVM小技巧：用throw-catch进行信号传递的加速方法 | XGN&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="问题引入在Java和Kotlin等JVM语言中提供了一种打破原有控制流的方式，那就是异常处理。通过throw抛出的异常会沿着调用栈回溯直到被catch。通过这种特殊的跳转，我们也可以实现一些信号的传递。 例如，一个login()函数可以通过返回不同种类的异常的方式表示程序的不同状态，同时避免执行不应当执行的代码（如服务器异常就不要执行数据库查询）：如ServerNotReadyException,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM小技巧：用throw-catch进行信号传递的加速方法">
+<meta property="og:url" content="https://xiaogenintendo.github.io/2025/04/06/jvm-try-catch/index.html">
+<meta property="og:site_name" content="XGN&#39;s blog">
+<meta property="og:description" content="问题引入在Java和Kotlin等JVM语言中提供了一种打破原有控制流的方式，那就是异常处理。通过throw抛出的异常会沿着调用栈回溯直到被catch。通过这种特殊的跳转，我们也可以实现一些信号的传递。 例如，一个login()函数可以通过返回不同种类的异常的方式表示程序的不同状态，同时避免执行不应当执行的代码（如服务器异常就不要执行数据库查询）：如ServerNotReadyException,">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-06T02:20:00.000Z">
+<meta property="article:modified_time" content="2025-07-23T04:03:03.464Z">
+<meta property="article:author" content="XGN">
+<meta property="article:tag" content="Chinese">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="XGN&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  <style>
+    
+  .fake-body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* min-height: 100vh; */
+      margin: 20px;
+      /* background-color: #f0f0f0; */
+  }
+
+
+
+
+.text-container {
+  /* align-self: center; */
+    font-size: 0.8rem; /* Adjust size as needed */
+    font-weight: bold;
+    display: flex; /* Allows letters to sit side-by-side */
+    align-items: baseline;
+    height: 100px;
+    /* text color white */
+    color: #ffffff;
+}
+
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 768px) { /* Target screens wider than 768px */
+    .text-container {
+      font-size: 1.6rem; /* Adjust size as needed */
+    }
+}
+
+  /* 2. Use a media query to show the div when the screen width is greater than a certain value.
+   Let's say you want to show it when the width is greater than 768 pixels.
+   Common breakpoints are 576px (sm), 768px (md), 992px (lg), 1200px (xl).
+*/
+@media screen and (min-width: 576px) { /* Target screens wider than 768px */
+    .text-container {
+      color:#000000;
+    }
+}
+
+.letter {
+    display: inline-block; /* Important for individual transformations and transitions */
+    transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Default transition for all properties */
+    opacity: 1;
+  	/* height: 20; */
+    width: calc-size(auto, size); /* Or a fixed width if you prefer */
+    overflow: hidden; /* To hide content when width shrinks */
+    margin-right: 0px; /* Optional: adds a little space between letters */
+}
+
+
+.letter ruby rt {
+    font-size: 0.5em;    /* Furigana smaller than base text */
+    line-height: 1.1;    /* Line height for furigana */
+    text-align: center;
+    user-select: none;   /* Optional: prevent selection */
+    /* Browsers usually position <rt> correctly above the base.
+       Avoid manual positioning (top, margin-top) unless absolutely necessary,
+       as it might interfere with baseline calculation. */
+}
+
+/* Styles for the letters that will disappear */
+.letter.disappear {
+    opacity: 0;
+    width: 0px;
+    /* font-size: 0.1em; Shrink font size for a smoother collapse */
+    margin-right: 0; /* Remove margin as it disappears */
+    /* You could also animate padding if you were using it */
+    /* padding-left: 0; */
+    /* padding-right: 0; */
+}
+  </style>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">XGN&#39;s blog</a>
+      </h1>
+      
+      <div class="fake-body">
+        <div class="text-container">
+          <span class="letter"><ruby>子<rt><span class="letter letterx">し</span></rt></ruby></span>
+          <span class="letter"><ruby>曰<rt><span class="letter letterx">い</span><span class="letter letterx">わ</span></rt></ruby></span>
+          <span class="letter letterx">く</span>
+          <span class="letter">、</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">び</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">わ</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>罔<rt><span class="letter letterx">く</span><span class="letter letterx">ら</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">、</span>
+          <span class="letter "><ruby>思<rt><span class="letter letterx">お</span><span class="letter letterx">も</span></rt></ruby></span>
+          <span class="letter disappear letterx">而</span>
+          <span class="letter disappear letterx">不</span>
+          <span class="letter letterx">い</span>
+          <span class="letter letterx">て</span>
+          <span class="letter "><ruby>学<rt><span class="letter letterx">ま</span><span class="letter letterx">な</span></rt></ruby></span>
+          <span class="letter disappear letterx">则</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter letterx">ざ</span>
+          <span class="letter letterx">れ</span>
+          <span class="letter letterx">ば</span>
+          <span class="letter "><ruby>殆<rt><span class="letter letterx">あ</span><span class="letter letterx">や</span><span class="letter letterx">う</span></rt></ruby></span>
+          <span class="letter letterx">し</span>
+          <span class="letter ">。</span>
+        </div>
+      </div>
+      <script>
+        let sentence=[];
+
+        function renderSentence(sentence){
+          let container=document.querySelector('.text-container');
+          container.innerHTML = ''; // Clear the container
+          for (let i = 0; i < sentence.length; i++){
+            container.innerHTML+=(`<span class="letter ${sentence[i].clz}">${sentence[i].text}</span>`);
+          }
+        }
+
+        function kana(ch){
+          return {text:ch, clz:"letter letterx"};
+        }
+
+        function kanji(ch,r1,r2){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}${[...r2].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter"};
+        }
+
+        function kanji2(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx disappear">${it}</span>`).join('')}</rt></ruby>`, clz:"letter disappear letterx"};
+        }
+        function kanji3(ch,r1){
+          return {text:`<ruby>${ch}<rt>${[...r1].map(it=>`<span class="letter letterx">${it}</span>`).join('')}</rt></ruby>`, clz:"letter letterx"};
+        }
+        function all(ch){
+          return {text:ch, clz:"letter"};
+        }
+
+        function sentence1(){
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("び"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("わ"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("罔","くら","ㄨㄤˇ"));
+          sentence.push(kana("し"));
+          sentence.push(all("、"));
+          sentence.push(kanji("思","おも","ㄙ"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("不","ㄅㄨˋ"));
+          sentence.push(kana("い"));
+          sentence.push(kana("て"));
+          sentence.push(kanji("学","まな","ㄒㄩㄝˊ"));
+          sentence.push(kanji2("則","ㄗㄜˊ"));
+          sentence.push(kana("ば"));
+          sentence.push(kana("ざ"));
+          sentence.push(kana("れ"));
+          sentence.push(kana("ば"));
+          sentence.push(kanji("殆","あやう","ㄉㄞˋ"));
+          sentence.push(kana("し"));
+          sentence.push(all("。"));
+        }
+
+        function sentence2(){
+          // 鶴、九皋に鳴き　聲、天に聞ゆ
+          // 鹤鸣于九皋，声闻于天
+          sentence.push(kanji("鶴","つる","ㄏㄜˋ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("鳴","ㄇㄧㄥˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("九","く","ㄐㄧㄡˇ"));
+          sentence.push(kanji("皋","こう","ㄍㄠ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("鳴","な"));
+          sentence.push(kana("き"));
+          sentence.push(all("　"));
+          sentence.push(kanji("聲","こえ","ㄕㄥ"));
+          sentence.push(kana("、"));
+          sentence.push(kanji2("聞","ㄨㄣˊ"));
+          sentence.push(kanji2("于","ㄩˊ"));
+          sentence.push(kanji("天","てん","ㄊㄧㄢ"));
+          sentence.push(kana("に"));
+          sentence.push(kanji3("聞","き"));
+          sentence.push(kana("ゆ"));
+          sentence.push(all("。"));
+        }
+        
+        function sentence3(){
+          // 子曰く、故（ふる）きを温（たず）ねて新しきを知る、以って師と為るべし。
+          // 子曰、温故而知新、可以為師矣。
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji2("温","ㄨㄣ"))
+          sentence.push(kanji("故","ふる","ㄍㄨˋ"))
+          sentence.push(kana("き"));
+          sentence.push(kana("を"));
+          sentence.push(kanji3("温","たず"));
+          sentence.push(kana("ね"));
+          sentence.push(kana("て"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("知","ㄓ"));
+          sentence.push(kanji("新","あたら","ㄒㄧㄣ"));
+          sentence.push(kana("し"));
+          sentence.push(kana("き"));
+          sentence.push(kana("を"));
+          sentence.push(kanji3("知","し"));
+          sentence.push(kana("る"));
+          sentence.push(all("、"));
+          sentence.push(kanji2("可","ㄎㄜˇ"));
+          sentence.push(kanji("以","も","ㄧˇ"));
+          sentence.push(kana("っ"));
+          sentence.push(kana("て"));
+          sentence.push(kanji2("為","ㄨㄟˊ"));
+          sentence.push(kanji("師","し","ㄕ"));
+          sentence.push(kana("と"));
+          sentence.push(kanji3("為","な"));
+          sentence.push(kana("る"));
+          sentence.push(kana("べ"));
+          sentence.push(kana("し"));
+          sentence.push(kanji2("矣","ㄧˇ"));
+          sentence.push(all("。"));
+        }
+
+        let call=[sentence1, sentence2,sentence3];
+        call[Math.floor(Math.random()*call.length)]();
+        renderSentence(sentence);
+
+        setInterval(function(){
+          const lettersToDisappear = document.querySelectorAll('.letterx');
+          lettersToDisappear.forEach(letter => {
+              letter.classList.toggle('disappear');
+          });
+        },4000);
+      </script>
+
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://xiaogenintendo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-jvm-try-catch" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2025/04/06/jvm-try-catch/" class="article-date">
+  <time datetime="2025-04-06T02:20:00.000Z" itemprop="datePublished">2025-04-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Dev/">Dev</a>►<a class="article-category-link" href="/categories/Dev/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM小技巧：用throw-catch进行信号传递的加速方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h1><p>在Java和Kotlin等JVM语言中提供了一种打破原有控制流的方式，那就是异常处理。通过throw抛出的异常会沿着调用栈回溯直到被catch。通过这种特殊的跳转，我们也可以实现一些信号的传递。</p>
+<p>例如，一个<code>login()</code>函数可以通过返回不同种类的异常的方式表示程序的不同状态，同时避免执行不应当执行的代码（如服务器异常就不要执行数据库查询）：如<code>ServerNotReadyException</code>,<code>PasswordIncorrectException</code>,<code>NoSuchUserException</code>来向调用者甚至用户直接提示错误。</p>
+<span id="more"></span>
+<p>更例如，在写一个基于递归的解释器（Tree-Walk Interpreter）时，一个while循环大概可以这么实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">	<span class="keyword">if</span>(!evaluate(loopCondition))&#123;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	execute(loopBody);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们想要实现<code>break</code>和<code>continue</code>语句，由于是递归实现的，我们不容易像汇编语言那样直接指名跳转。利用Break和Continue打破原有控制流的特性，我们可以这么巧妙的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executeBreak</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> BreakException();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executeContinue</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> ContinueException();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executeOthers</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//......</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executeWhile</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(!evaluate(loopCondition))&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			execute(loopBody);</span><br><span class="line">		&#125;<span class="keyword">catch</span>(BreakException e)&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;<span class="keyword">catch</span>(ContinueException e)&#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显然，上述程序都可以写成返回enum+message的形式，然后手动return实现控制流回退。这样更类似于C和Rust的实现理念。</p>
+<p>然而，许多时候，我们被告知不应当使用异常进行信号传递，主要理由是：performance。网上流传的说法是throw比正常的if判断会慢几百到几千倍，如果一个接口需要频繁被调用，那么使用throw进行信号传递是非常低效的行为。</p>
+<p>这个说法是真的吗？如果确实如此，我们真的就应该断念throw-catch吗？本文将探讨如何在该情境下实现throw-catch信号传递的加速。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>分析下列程序（Kotlin）：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> time=System.currentTimeMillis()</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10000000</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i%<span class="number">2</span>==i%<span class="number">3</span>)&#123;</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    println(System.currentTimeMillis()-time)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> time=System.currentTimeMillis()</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10000000</span>)&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(i%<span class="number">2</span>==i%<span class="number">3</span>)</span><br><span class="line">            <span class="keyword">throw</span> RuntimeException()</span><br><span class="line">        &#125;<span class="keyword">catch</span>(_:Exception)&#123;</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    println(System.currentTimeMillis()-time)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    test1()</span><br><span class="line">    test2()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4513</span><br><span class="line">32</span><br></pre></td></tr></table></figure>
+<p>呃啊！慢了141倍！！！网上流传不假！那么为什么Exception慢呢？原因有二：</p>
+<ul>
+<li>Throwable在throw的时候需要填写stacktrace，这非常cost-heavy！——但是作为信号传递工具来说我们不关心！</li>
+<li>Exception每次throw就要创建Exception对象，不仅耗时还给GC上压力！——假如不需要传递message之类的，完全可以单例化！</li>
+</ul>
+<p>好心的是，Java非常的宽容，Exception允许我们自定义填不填写stacktrace，通过复写fillInStackTrace方法即可：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LightweightException</span></span>() : RuntimeException() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">fillInStackTrace</span><span class="params">()</span></span>: Throwable &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span> <span class="comment">// Do nothing, effectively preventing stack trace capture</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也有其他方法，读者可以自行搜索~</p>
+<p>所以我们就有了下面的优化代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LightweightException</span></span>() : RuntimeException() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">fillInStackTrace</span><span class="params">()</span></span>: Throwable &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span> <span class="comment">// Do nothing, effectively preventing stack trace capture</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> ex=LightweightException()</span><br><span class="line"></span><br><span class="line"><span class="comment">// If else structure</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test4</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> time=System.currentTimeMillis()</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10000000</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i%<span class="number">2</span>==i%<span class="number">3</span>)&#123;</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    println(System.currentTimeMillis()-time)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Throw without stacktrace + singleton</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> time=System.currentTimeMillis()</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10000000</span>)&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(i%<span class="number">2</span>==i%<span class="number">3</span>)</span><br><span class="line">            <span class="keyword">throw</span> ex</span><br><span class="line">        &#125;<span class="keyword">catch</span>(_:Exception)&#123;</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    println(System.currentTimeMillis()-time)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Throw without stacktrace</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> time=System.currentTimeMillis()</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10000000</span>)&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(i%<span class="number">2</span>==i%<span class="number">3</span>)</span><br><span class="line">            <span class="keyword">throw</span> LightweightException()</span><br><span class="line">        &#125;<span class="keyword">catch</span>(_:Exception)&#123;</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    println(System.currentTimeMillis()-time)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Throw normally</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> time=System.currentTimeMillis()</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10000000</span>)&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(i%<span class="number">2</span>==i%<span class="number">3</span>)</span><br><span class="line">            <span class="keyword">throw</span> RuntimeException()</span><br><span class="line">        &#125;<span class="keyword">catch</span>(_:Exception)&#123;</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    println(System.currentTimeMillis()-time)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    test1()</span><br><span class="line">    test2()</span><br><span class="line">    test3()</span><br><span class="line">    test4()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">4513</span><br><span class="line">101</span><br><span class="line">38</span><br><span class="line">32</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，优化非常明显！完全没有负担哦！</p>
+<p>(注意：使用单例化的Exception并不一定是一个好的实践，会带来一些其他的负面效果，在本例中可以适用而已！)</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>不难发现，throw-catch实现本身带来的性能损失是小的，主要耗时发生在填写stacktrace中。通过一些优化，我们也可以在实践条件下放心的使用throw-catch进行信号传递！</p>
+<p>当然，你可能会说这个benchmark做的太不严谨了！没有真实模拟现实存在的情况，也没有考虑函数嵌套等的影响！事实上也确实如此，所以欢迎各位读者自行设计benchmark，如果有其他看法，也可以在评论区留言（如果您在XGN Blog上看到了这篇文章，请移步blog.hellholestudios.top进行评论）</p>
+<h1 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h1><p>blame someone else（狗头）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Throwable <span class="title">fillInStackTrace</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	StackTraceElement[] fakeStackTrace = <span class="keyword">new</span> StackTraceElement[] &#123;</span><br><span class="line">		<span class="keyword">new</span> StackTraceElement(<span class="string">&quot;top.hhs.zzzyt.absolutely.correct.code&quot;</span>, <span class="string">&quot;someMethod&quot;</span>, <span class="string">&quot;SomeClass.java&quot;</span>, <span class="number">114514</span>),</span><br><span class="line">		<span class="keyword">new</span> StackTraceElement(<span class="string">&quot;definitely.not.my.code.lol&quot;</span>, <span class="string">&quot;processData&quot;</span>, <span class="string">&quot;Module.java&quot;</span>, <span class="number">1919810</span>),</span><br><span class="line">		<span class="keyword">new</span> StackTraceElement(<span class="string">&quot;blame.someone.else&quot;</span>, <span class="string">&quot;runTask&quot;</span>, <span class="string">&quot;OldCode.java&quot;</span>, <span class="number">0</span>),</span><br><span class="line">		<span class="comment">// Add more fake stack frames as needed</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">super</span>.setStackTrace(fakeStackTrace);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BlameException: Something went wrong... or did it?</span><br><span class="line">	at top.hhs.zzzyt.absolutely.correct.code.someMethod(SomeClass.java:114514)</span><br><span class="line">	at definitely.not.my.code.lol.processData(Module.java:1919810)</span><br><span class="line">	at blame.someone.else.runTask(OldCode.java:0)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaogenintendo.github.io/2025/04/06/jvm-try-catch/" data-id="cmdffwnlj005nlgibcyob1okw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/04/18/jpn-lexi-7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          日语词汇学笔记[7] ——蜗牛考
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/03/28/jpn-lexi-6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">日语词汇学笔记[6] ——音读和训读</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/">Dev</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Apple/">Apple</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/DS/">DS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/MC-Mod/">MC Mod</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Web/">Web</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Unweekly/">Unweekly</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Mahjong/">Mahjong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Osu/">Osu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Touhou/">Touhou</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linguistic/">Linguistic</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Linguistic/Random/">Random</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/">Literature</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/OC-Setting/">OC Setting</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/Segicverse/">Segicverse</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/OBCYSIO/">OBCYSIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/School/">School</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tip/">Tip</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Update/">Update</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cakeslice/" rel="tag">Cakeslice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CreateML/" rel="tag">CreateML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/" rel="tag">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Japanese/" rel="tag">Japanese</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSS-Short/" rel="tag">LSS Short</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linguistic/" rel="tag">Linguistic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mahjong/" rel="tag">Mahjong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Minecraft/" rel="tag">Minecraft</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OBCYSIO/" rel="tag">OBCYSIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OC/" rel="tag">OC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OI/" rel="tag">OI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Osu/" rel="tag">Osu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release/" rel="tag">Release</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ryujin/" rel="tag">Ryujin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/School/" rel="tag">School</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Segicverse/" rel="tag">Segicverse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test-Blog/" rel="tag">Test Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touhou/" rel="tag">Touhou</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZKY/" rel="tag">ZKY</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Cakeslice/" style="font-size: 10px;">Cakeslice</a> <a href="/tags/Chinese/" style="font-size: 20px;">Chinese</a> <a href="/tags/CreateML/" style="font-size: 10px;">CreateML</a> <a href="/tags/Dev/" style="font-size: 16.67px;">Dev</a> <a href="/tags/English/" style="font-size: 19.17px;">English</a> <a href="/tags/Japanese/" style="font-size: 15.83px;">Japanese</a> <a href="/tags/Java/" style="font-size: 12.5px;">Java</a> <a href="/tags/LSS-Short/" style="font-size: 12.5px;">LSS Short</a> <a href="/tags/Linguistic/" style="font-size: 15.83px;">Linguistic</a> <a href="/tags/Mahjong/" style="font-size: 10px;">Mahjong</a> <a href="/tags/Minecraft/" style="font-size: 10px;">Minecraft</a> <a href="/tags/OBCYSIO/" style="font-size: 13.33px;">OBCYSIO</a> <a href="/tags/OC/" style="font-size: 18.33px;">OC</a> <a href="/tags/OI/" style="font-size: 17.5px;">OI</a> <a href="/tags/Osu/" style="font-size: 10px;">Osu</a> <a href="/tags/Release/" style="font-size: 15px;">Release</a> <a href="/tags/Ryujin/" style="font-size: 14.17px;">Ryujin</a> <a href="/tags/School/" style="font-size: 12.5px;">School</a> <a href="/tags/Segicverse/" style="font-size: 11.67px;">Segicverse</a> <a href="/tags/Test-Blog/" style="font-size: 10.83px;">Test Blog</a> <a href="/tags/Touhou/" style="font-size: 12.5px;">Touhou</a> <a href="/tags/ZKY/" style="font-size: 12.5px;">ZKY</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">September 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/06/16/jpn-lexi-10/">日语词汇学笔记[10] ——单词的性质</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/30/random-jpn-1/">Random Japanese No. 1 来自西瓜的联想</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/26/jpn-lexi-e2/">日语词汇学笔记[Ex. 2] ——役割语补充</a>
+          </li>
+        
+          <li>
+            <a href="/2025/05/22/jpn-lexi-9/">日语词汇学笔记[9] ——国字和表记基准</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/24/jpn-lexi-e1/">日语词汇学笔记[Ex. 1] ——汉语入声的处理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 XGN<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

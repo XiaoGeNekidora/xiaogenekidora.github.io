@@ -250,7 +250,45 @@
           sentence.push(all("。"));
         }
         
-        let call=[sentence1, sentence2];
+        function sentence3(){
+          // 子曰く、故（ふる）きを温（たず）ねて新しきを知る、以って師と為るべし。
+          // 子曰、温故而知新、可以為師矣。
+          sentence.push(kanji("子","し","ㄗˇ"));
+          sentence.push(kanji("曰","いわ","ㄩㄝ"));
+          sentence.push(kana("く"));
+          sentence.push(all("、"));
+          sentence.push(kanji2("温","ㄨㄣ"))
+          sentence.push(kanji("故","ふる","ㄍㄨˋ"))
+          sentence.push(kana("き"));
+          sentence.push(kana("を"));
+          sentence.push(kanji3("温","たず"));
+          sentence.push(kana("ね"));
+          sentence.push(kana("て"));
+          sentence.push(kanji2("而","ㄦˊ"));
+          sentence.push(kanji2("知","ㄓ"));
+          sentence.push(kanji("新","あたら","ㄒㄧㄣ"));
+          sentence.push(kana("し"));
+          sentence.push(kana("き"));
+          sentence.push(kana("を"));
+          sentence.push(kanji3("知","し"));
+          sentence.push(kana("る"));
+          sentence.push(all("、"));
+          sentence.push(kanji2("可","ㄎㄜˇ"));
+          sentence.push(kanji("以","も","ㄧˇ"));
+          sentence.push(kana("っ"));
+          sentence.push(kana("て"));
+          sentence.push(kanji2("為","ㄨㄟˊ"));
+          sentence.push(kanji("師","し","ㄕ"));
+          sentence.push(kana("と"));
+          sentence.push(kanji3("為","な"));
+          sentence.push(kana("る"));
+          sentence.push(kana("べ"));
+          sentence.push(kana("し"));
+          sentence.push(kanji2("矣","ㄧˇ"));
+          sentence.push(all("。"));
+        }
+
+        let call=[sentence1, sentence2,sentence3];
         call[Math.floor(Math.random()*call.length)]();
         renderSentence(sentence);
 
@@ -288,14 +326,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hhs-new-blog" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-touhou-sort-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/04/13/hhs-new-blog/" class="article-date">
-  <time datetime="2021-04-13T13:04:00.000Z" itemprop="datePublished">2021-04-13</time>
+    <a href="/2021/08/03/touhou-sort-1/" class="article-date">
+  <time datetime="2021-08-03T11:18:00.000Z" itemprop="datePublished">2021-08-03</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Tip/">Tip</a>
+    <a class="article-category-link" href="/categories/Game/">Game</a>►<a class="article-category-link" href="/categories/Game/Touhou/">Touhou</a>
   </div>
 
   </div>
@@ -306,7 +344,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/13/hhs-new-blog/">HHS New Wordpress Site is Up</a>
+      <a class="article-title" href="/2021/08/03/touhou-sort-1/">Touhou Sort No. 1 Result</a>
     </h1>
   
 
@@ -314,66 +352,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://blog1.hellholestudios.top/">HHS New Blog Site</a> is built using wordpress. It’s currently testing and has no useful articles.</p>
-<p>Stay tuned as HDD and members of HHS including myself will post stuffs there as soon as it’s ready.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/04/13/hhs-new-blog/" data-id="cmagyzz2s0039gsib017j62gd" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-jsoi2021-diary" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/12/jsoi2021-diary/" class="article-date">
-  <time datetime="2021-04-12T10:20:00.000Z" itemprop="datePublished">2021-04-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Diary/">Diary</a>►<a class="article-category-link" href="/categories/Diary/OI/">OI</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/12/jsoi2021-diary/">JSOI2021游记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>大家好，我是每年都去省选摸鱼的XGN，今年一如既往的抱着旅游的心态去打JSOI，没想到竟然在我们学校……（计划泡汤</p>
-<p>所以只能讲讲考场那些事了。</p>
-<h1 id="Day-0"><a href="#Day-0" class="headerlink" title="Day 0"></a>Day 0</h1><p>周五下午试机还要上cr的选修课（也在机房）。于是就被ls老师叫去当无价劳动力去开虚拟机……结果是cr的选修课也没老师来上，试机也没好好试，还总是有人来选修课教室问能不能试机。</p>
-<p>学校有钱买木板隔开座位，也割小了空间，让人感觉很不爽……</p>
+        <p>Today I take part in the <a target="_blank" rel="noopener" href="https://relick.me/song/">Touhou song sorting</a> and <a target="_blank" rel="noopener" href="https://tohosort.frelia.my/">character sorting game</a>.</p>
         
           <p class="article-more-link">
-            <a href="/2021/04/12/jsoi2021-diary/#more">Read More</a>
+            <a href="/2021/08/03/touhou-sort-1/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/04/12/jsoi2021-diary/" data-id="cmagyzz2z004kgsib4enq34p2" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/08/03/touhou-sort-1/" data-id="cmdffwnm600ailgib1bmd0qpn" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OI/" rel="tag">OI</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Touhou/" rel="tag">Touhou</a></li></ul>
 
     </footer>
   </div>
@@ -382,59 +373,10 @@
 
 
   
-    <article id="post-obcysio-45" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-unweekly-7" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/04/05/obcysio-45/" class="article-date">
-  <time datetime="2021-04-05T02:00:00.000Z" itemprop="datePublished">2021-04-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/OBCYSIO/">OBCYSIO</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/05/obcysio-45/">Orange Boy Can You Solve It Out? Ep.45</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Useful 思考题!!</p>
-<h1 id="Replace"><a href="#Replace" class="headerlink" title="Replace"></a>Replace</h1><p>Hikari is a cute white dragon girl. She is helping Ninetail - a fox girl, her master - correct composition.The original composition is a string S and the corrected one is another string T.</p>
-<p>Hikari claimed that she used a <strong>single</strong> <code>replaceAll</code> function in doc to finish the correction. The function requires a <code>from</code> string and a <code>to</code> string and will replace all <code>from</code> with <code>to</code> in the string S. Your task is to find out what’s the minimum sum of characters of <code>from</code> and <code>to</code> to finish the change in one <code>replaceAll</code>.</p>
-        
-          <p class="article-more-link">
-            <a href="/2021/04/05/obcysio-45/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/04/05/obcysio-45/" data-id="cmagyzz38006fgsibd2eqbz9e" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OBCYSIO/" rel="tag">OBCYSIO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OI/" rel="tag">OI</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-unweekly-3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/30/unweekly-3/" class="article-date">
-  <time datetime="2021-03-30T10:15:00.000Z" itemprop="datePublished">2021-03-30</time>
+    <a href="/2021/08/01/unweekly-7/" class="article-date">
+  <time datetime="2021-08-01T08:51:00.000Z" itemprop="datePublished">2021-08-01</time>
 </a>
     
   <div class="article-category">
@@ -449,7 +391,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/30/unweekly-3/">Unweekly Report 2021 No. 3</a>
+      <a class="article-title" href="/2021/08/01/unweekly-7/">Unweekly Report 2021 No. 7</a>
     </h1>
   
 
@@ -457,21 +399,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Hello, this is <strong>unweekly report</strong> No.3 from 2021! Please read the contents:</p>
+        <p>Hello, this is <strong>unweekly report</strong> No.7 from 2021! Please read the contents:</p>
 <h2 id="Contents"><a href="#Contents" class="headerlink" title="Contents"></a>Contents</h2><ul>
-<li>How about WWDC and other school projects?</li>
-<li>What was I doing in the last 2 weeks?</li>
-<li>About the projects you mentioned <a href="https://xiaogenintendo.github.io/2021/02/22/unweekly2021-2/">last report</a>…</li>
+<li>Status</li>
+<li>Recent Played</li>
+<li>Recent Project (Spice &amp; Wolf)</li>
 </ul>
         
           <p class="article-more-link">
-            <a href="/2021/03/30/unweekly-3/#more">Read More</a>
+            <a href="/2021/08/01/unweekly-7/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/03/30/unweekly-3/" data-id="cmagyzz3m009tgsibfphjfo2t" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/08/01/unweekly-7/" data-id="cmdffwnmc00bllgibgr8a0wjz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
@@ -483,14 +425,14 @@
 
 
   
-    <article id="post-obcysio-44" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-random-diary-4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/03/14/obcysio-44/" class="article-date">
-  <time datetime="2021-03-14T08:14:00.000Z" itemprop="datePublished">2021-03-14</time>
+    <a href="/2021/07/17/random-diary-4/" class="article-date">
+  <time datetime="2021-07-17T13:31:00.000Z" itemprop="datePublished">2021-07-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/OBCYSIO/">OBCYSIO</a>
+    <a class="article-category-link" href="/categories/Diary/">Diary</a>►<a class="article-category-link" href="/categories/Diary/Random/">Random</a>
   </div>
 
   </div>
@@ -501,7 +443,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/14/obcysio-44/">Orange Boy Can You Solve It Out? Ep.44</a>
+      <a class="article-title" href="/2021/07/17/random-diary-4/">Random Diary No. 4 - 「Monster Hunter Stories 2」游戏简评 &amp; 简单攻略</a>
     </h1>
   
 
@@ -509,75 +451,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>String 思考题!!</p>
-<h1 id="Boggle-Constructor"><a href="#Boggle-Constructor" class="headerlink" title="Boggle Constructor"></a>Boggle Constructor</h1><p>Ninetail is a clever fox girl. She loves to play <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Boggle">Boggle</a>!</p>
-<p>the rules are simple:</p>
-<blockquote>
-<p>Each player searches for words that can be constructed from the letters of sequentially adjacent cubes, where “adjacent” cubes are those horizontally, vertically, and diagonally neighboring. Words must be at least three letters long, may include singular and plural (or other derived forms) separately, but may not use the same letter cube more than once per word. </p>
-<p>(wikipedia)</p>
-</blockquote>
-<p>Today she has many words and she wants to put all of them in a 4*4 Boggle board. Each cell should contain only 1 character.</p>
-<p>Show a possible construction or say it’s impossible.</p>
+        <p>大家好，我是玩完一个游戏就要写一篇blog的XGN。写这一篇的时候，blog https证书爆炸了，所以先发在XGN Blog上。<del>一年独占</del></p>
+<p>本文骄傲的使用MacOS编辑因为MS的输入法直接萎了</p>
+<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p>「Monster Hunter Stories 2（以下简称MHS2）」是Capcom怪物猎人系列的最新旁枝系列RPG游戏，讲述了一个可以 <del>随意操纵怪物</del> 与怪物缔结深厚的友谊的小朋友拯救世界的故事。</p>
+<p>笔者游戏总时间大约在30小时左右（Any%通关，无额外完成成就、画廊）</p>
+<p>游戏分Asia和Global两个区，Asia有中文版。由于某些大家都懂的原因，笔者游玩的是Global区，也就是英文的……</p>
+<p>详细评价可登录<a href="https://xiaogenintendo.github.io/xgn-homepage-test/game.html">XGN Homepage</a> 搜索相关内容</p>
+<p>一句话：如果非常喜欢肝的话，可以考虑入手。否则，也可以考虑随便玩玩（如果你很rich）。</p>
         
           <p class="article-more-link">
-            <a href="/2021/03/14/obcysio-44/#more">Read More</a>
+            <a href="/2021/07/17/random-diary-4/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/03/14/obcysio-44/" data-id="cmagyzz370063gsib4n8ceyn0" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OBCYSIO/" rel="tag">OBCYSIO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OI/" rel="tag">OI</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-the-great-japanese-challenge" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/09/the-great-japanese-challenge/" class="article-date">
-  <time datetime="2021-03-09T13:25:00.000Z" itemprop="datePublished">2021-03-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Game/">Game</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/09/the-great-japanese-challenge/">汉字日翻中挑战</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>本游戏面向日语接触较少或零基础的人</strong></p>
-<p>有人说：「日语就是汉字加假名。学习日语作为中国人有得天独厚的优势」。</p>
-<p>游戏规则非常简单，你将会看到日语的汉字。请翻译成中文。本文章会不断更新增加更多有意思的词。</p>
-<h1 id="题组A"><a href="#题组A" class="headerlink" title="题组A"></a>题组A</h1><p><em>翻译下列单词</em></p>
-<p>考慮 大丈夫 発展 制限 実行 演算子 遺伝子 入力 出力 駅 東方 古今東西 受注 会社 憑依</p>
-        
-          <p class="article-more-link">
-            <a href="/2021/03/09/the-great-japanese-challenge/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/03/09/the-great-japanese-challenge/" data-id="cmagyzz3h008mgsibajz63xx7" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/07/17/random-diary-4/" data-id="cmdffwnlw0082lgibfcu6bsho" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
@@ -589,14 +478,14 @@
 
 
   
-    <article id="post-those-who-influence-me-most" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-random-diary-3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/27/those-who-influence-me-most/" class="article-date">
-  <time datetime="2021-02-27T14:38:00.000Z" itemprop="datePublished">2021-02-27</time>
+    <a href="/2021/07/06/random-diary-3/" class="article-date">
+  <time datetime="2021-07-06T12:52:00.000Z" itemprop="datePublished">2021-07-06</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Random/">Random</a>
+    <a class="article-category-link" href="/categories/Diary/">Diary</a>►<a class="article-category-link" href="/categories/Diary/Random/">Random</a>
   </div>
 
   </div>
@@ -607,7 +496,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/27/those-who-influence-me-most/">对我影响重大的游戏和系列</a>
+      <a class="article-title" href="/2021/07/06/random-diary-3/">Random Diary No. 3 - 「わるい王様とりっぱな勇者」游戏简评 &amp; 简单攻略</a>
     </h1>
   
 
@@ -615,27 +504,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>此文你将了解到对我影响重大的游戏和系列</p>
-<p>注意：某些图萎了，但我也懒得修了。懂就好，实在不行谷歌一下</p>
-<p>目录</p>
-<ul>
-<li>(2011)奥拉星</li>
-<li>(2012)马里奥和任天堂</li>
-<li>(2017)龙女仆和「龙与天使的轮舞」</li>
-<li>(2017)Undertale</li>
-<li>(2018)东方Project</li>
-<li>(2020)Rune Factory 4</li>
-<li>(2021)狼与香辛料</li>
-</ul>
+        <p>大家好，为了博客复兴，我又来贡献一篇文章了。一如既往，这篇文章可以在HHS Blog和XGN Blog上同时看到。</p>
+<p>本文骄傲的使用MacOS编辑因为MS的输入法直接萎了</p>
+<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p>「わるい王様とりっぱな勇者」是日本一公司的传统RPG绘本风格的游戏。由于只有日语支持，笔者也不会翻译，下文就简称该游戏吧。</p>
+<p>游戏介绍了主角悠（巴哈姆特翻译）和他的父亲国王龙的故事（大概吧）</p>
+<p>笔者游戏总时间大约在10小时左右（Any%通关，无额外完成成就、画廊）</p>
+<p>游戏<strong>日本语独占</strong>，<strong>主机独占</strong>，非常的<strong>良心</strong></p>
+<p>游戏非常考验日本语水平，独特的铅笔画画风能够秒杀百度翻译的图片识别系统甚是讨厌……</p>
+<p>详细评价可登录<a href="https://xiaogenintendo.github.io/xgn-homepage-test/game.html">XGN Homepage</a> 搜索相关内容</p>
+<p>一句话：不推荐入手。实在感兴趣可以考虑当云玩家。</p>
         
           <p class="article-more-link">
-            <a href="/2021/02/27/those-who-influence-me-most/#more">Read More</a>
+            <a href="/2021/07/06/random-diary-3/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/02/27/those-who-influence-me-most/" data-id="cmagyzz3i008ugsib9qrr3lcf" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/07/06/random-diary-3/" data-id="cmdffwnlv007ylgib10evbh1i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
@@ -647,10 +533,10 @@
 
 
   
-    <article id="post-unweekly2021-2" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-unweekly-6" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/22/unweekly2021-2/" class="article-date">
-  <time datetime="2021-02-22T11:02:00.000Z" itemprop="datePublished">2021-02-22</time>
+    <a href="/2021/06/15/unweekly-6/" class="article-date">
+  <time datetime="2021-06-15T10:02:00.000Z" itemprop="datePublished">2021-06-15</time>
 </a>
     
   <div class="article-category">
@@ -665,7 +551,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/22/unweekly2021-2/">Unweekly Report 2021 No. 2</a>
+      <a class="article-title" href="/2021/06/15/unweekly-6/">Unweekly Report 2021 No. 6</a>
     </h1>
   
 
@@ -673,21 +559,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <strong>Unweekly Report</strong>! This is the second report of 2021. Please read the content:</p>
-<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><ul>
-<li>What I am doing right now</li>
-<li>What project can I expect</li>
-<li>What games am I playing</li>
+        <p>Hello, this is <strong>unweekly report</strong> No.6 from 2021! Please read the contents:</p>
+<h2 id="Contents"><a href="#Contents" class="headerlink" title="Contents"></a>Contents</h2><ul>
+<li>Status</li>
+<li>S&amp;W</li>
+<li>New plan</li>
+<li>Koto</li>
 </ul>
         
           <p class="article-more-link">
-            <a href="/2021/02/22/unweekly2021-2/#more">Read More</a>
+            <a href="/2021/06/15/unweekly-6/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/02/22/unweekly2021-2/" data-id="cmagyzz3q00apgsib9zyx4phe" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/06/15/unweekly-6/" data-id="cmdffwnmb00bilgib0gtp154r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
@@ -699,14 +586,14 @@
 
 
   
-    <article id="post-blog-how-to" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-my-editor" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/15/blog-how-to/" class="article-date">
-  <time datetime="2021-02-15T02:41:00.000Z" itemprop="datePublished">2021-02-15</time>
+    <a href="/2021/05/30/my-editor/" class="article-date">
+  <time datetime="2021-05-30T14:42:00.000Z" itemprop="datePublished">2021-05-30</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Tip/">Tip</a>
+    <a class="article-category-link" href="/categories/Diary/">Diary</a>►<a class="article-category-link" href="/categories/Diary/Random/">Random</a>
   </div>
 
   </div>
@@ -717,7 +604,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/15/blog-how-to/">Upload to Hell Hole Studios Blog - Howto</a>
+      <a class="article-title" href="/2021/05/30/my-editor/">My Software Preference</a>
     </h1>
   
 
@@ -725,17 +612,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>The HHS new blog has been deployed for almost half a year, yet there are still some people who don’t know how to upload blog. Here’s a tutorial &amp; cheatsheet in case someone forgets. </p>
-<p><strong>The HHS blog is only available for HHS members. You can send me a mail if you want to write fan article there</strong></p>
+        <p>Editors, IDES, Workspaces are very important for a coder. And so is true for artists and composers.</p>
+<p>In this article, I will share some of my editor/software preferences that I am using.</p>
+<h1 id="C-C"><a href="#C-C" class="headerlink" title="C/C++"></a>C/C++</h1><ul>
+<li>Dev-C++</li>
+</ul>
+<p>I didn’t install VC distribution for VS because it’s too big. I seldom do C++ developing either.</p>
+<h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><ul>
+<li>Eclipse</li>
+<li>Idea</li>
+</ul>
+<p>I use Eclipse more often</p>
         
           <p class="article-more-link">
-            <a href="/2021/02/15/blog-how-to/#more">Read More</a>
+            <a href="/2021/05/30/my-editor/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/02/15/blog-how-to/" data-id="cmagyzz2p002lgsibaadf0ef2" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/05/30/my-editor/" data-id="cmdffwnln006blgib45rf3w0i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
@@ -747,14 +643,14 @@
 
 
   
-    <article id="post-wxs-diary" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-unweekly-5" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/14/wxs-diary/" class="article-date">
-  <time datetime="2021-02-14T11:24:00.000Z" itemprop="datePublished">2021-02-14</time>
+    <a href="/2021/05/25/unweekly-5/" class="article-date">
+  <time datetime="2021-05-25T13:19:00.000Z" itemprop="datePublished">2021-05-25</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Diary/">Diary</a>
+    <a class="article-category-link" href="/categories/Diary/">Diary</a>►<a class="article-category-link" href="/categories/Diary/Unweekly/">Unweekly</a>
   </div>
 
   </div>
@@ -765,7 +661,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/14/wxs-diary/">无想山游记</a>
+      <a class="article-title" href="/2021/05/25/unweekly-5/">Unweekly Report 2021 No. 5</a>
     </h1>
   
 
@@ -773,23 +669,184 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>大家好，我是组织了假装无想山之旅其实是去坐地铁的XGN。成员有WZZ，ZKY，Zzzyt和我。</p>
-<p>这次本来是打算和上次金牛湖（blog已丢失）一样children only的，但是由于我妈也想去，也就召集了许多家长，最后形成了Parent Team。</p>
-<p>以下是非常简单的流水账记载，仅供参考：</p>
-<h1 id="1-地铁"><a href="#1-地铁" class="headerlink" title="1. 地铁"></a>1. 地铁</h1><p>早上大家到的都很早，乘坐地铁前往无想山。没想到S1还没结束parent team就已经到无想山地铁站了<del>地铁甚慢</del>。一路上Zky和Wzz在打王者，我和Zzzyt在闲谈。</p>
-<p>整体来说风景比S9差远了（也可能是季节的原因），周围全是荒地，要么是厂房，非常的丑陋。</p>
+        <p>Hello, this is <strong>unweekly report</strong> No.5 from 2021! It’s exactly 1 month after last released! Please read the contents:</p>
+<h2 id="Contents"><a href="#Contents" class="headerlink" title="Contents"></a>Contents</h2><ul>
+<li>TestSTG4</li>
+<li>New Project</li>
+<li>Terraria</li>
+<li>Rune Factory</li>
+</ul>
         
           <p class="article-more-link">
-            <a href="/2021/02/14/wxs-diary/#more">Read More</a>
+            <a href="/2021/05/25/unweekly-5/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2021/02/14/wxs-diary/" data-id="cmagyzz3r00axgsib0if8g3he" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2021/05/25/unweekly-5/" data-id="cmdffwnma00bdlgibcyumccuy" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Excursion-LSS-Short" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/16/Excursion-LSS-Short/" class="article-date">
+  <time datetime="2021-05-16T08:15:00.000Z" itemprop="datePublished">2021-05-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Literature/">Literature</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/16/Excursion-LSS-Short/">Excursion - LSS Short</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><em>Initially published on May 3rd on <a target="_blank" rel="noopener" href="https://blog.hellholestudios.top/index.php/2021/05/03/lss-short-excursion/">Hell Hole Studios Blog</a></em></p>
+<p>It has been 5 months since the last LSS Short… So here’s another episode with minimal effort :).</p>
+<p>Please note this series does not follow chronological order.</p>
+<p>Without further ado, let’s begin.</p>
+<h1 id="ONE"><a href="#ONE" class="headerlink" title="ONE"></a>ONE</h1><blockquote>
+<p>Wondering, pondering, where’s my position?</p>
+</blockquote>
+<p>Clear sky, white cloud, straight road. Birds were roaming down the skyline, asphalt line extended to the horizon. Everything was in peace, in silence, as always.</p>
+<p>The road, which was definitely one needed polishing, was companied by borderless cole flower fields. The flowers danced in waves in response to gusts of wind, swinging according to the tempo of nature.</p>
+        
+          <p class="article-more-link">
+            <a href="/2021/05/16/Excursion-LSS-Short/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaogenintendo.github.io/2021/05/16/Excursion-LSS-Short/" data-id="cmdffwnks001clgibbln72tz1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LSS-Short/" rel="tag">LSS Short</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OC/" rel="tag">OC</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-unweekly-4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/25/unweekly-4/" class="article-date">
+  <time datetime="2021-04-25T09:54:00.000Z" itemprop="datePublished">2021-04-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Diary/">Diary</a>►<a class="article-category-link" href="/categories/Diary/Unweekly/">Unweekly</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/25/unweekly-4/">Unweekly Report 2021 No. 4</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hello, this is <strong>unweekly report</strong> No.4 from 2021! Please read the contents:</p>
+<h2 id="Contents"><a href="#Contents" class="headerlink" title="Contents"></a>Contents</h2><ul>
+<li>How about WWDC?</li>
+<li>What else?</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/25/unweekly-4/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaogenintendo.github.io/2021/04/25/unweekly-4/" data-id="cmdffwnmf00c9lgib4wj36k76" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/English/" rel="tag">English</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2021wwdc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/19/2021wwdc/" class="article-date">
+  <time datetime="2021-04-19T11:31:00.000Z" itemprop="datePublished">2021-04-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Dev/">Dev</a>►<a class="article-category-link" href="/categories/Dev/Apple/">Apple</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/19/2021wwdc/">2021 Swift Student Challenge(WWDC)参加感想与经验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>大家好，我是XGN，这次是在Mac上写这篇文章。这次来谈一谈WWDC Swift Student Challenge 2021.</p>
+<h1 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h1><p><a target="_blank" rel="noopener" href="https://developer.apple.com/wwdc21/swift-student-challenge/">苹果官网</a></p>
+<p><a href="https://xiaogenintendo.github.io/2021/04/19/2021wwdc/">在我的Blog上阅读</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/XiaoGeNintendo/MIST">代码和文书参考</a></p>
+<h1 id="工程介绍"><a href="#工程介绍" class="headerlink" title="工程介绍"></a>工程介绍</h1><p>我的工程是MIST，MayISolveIt，是一个教育游戏为一体的2D Playground。在游戏中你扮演一名返乡有志青年希望通过自己的技术和政府的补助帮助当地的老乡脱贫致富。</p>
+<p>在游戏中，你需要摆放建筑，考虑到自己的经济因素和老乡们对环境的要求，实现和谐自然的可持续发展。</p>
+<p>该项目开源。</p>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/19/2021wwdc/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xiaogenintendo.github.io/2021/04/19/2021wwdc/" data-id="cmdffwnki0007lgib730h94ih" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dev/" rel="tag">Dev</a></li></ul>
 
     </footer>
   </div>
@@ -802,7 +859,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -813,7 +870,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/">Dev</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Apple/">Apple</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/DS/">DS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/MC-Mod/">MC Mod</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Web/">Web</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Unweekly/">Unweekly</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Mahjong/">Mahjong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Osu/">Osu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Touhou/">Touhou</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linguistic/">Linguistic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/">Literature</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/OC-Setting/">OC Setting</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/Segicverse/">Segicverse</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/OBCYSIO/">OBCYSIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/School/">School</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tip/">Tip</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Update/">Update</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/">Dev</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Apple/">Apple</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/DS/">DS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/MC-Mod/">MC Mod</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dev/Web/">Web</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/OI/">OI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Unweekly/">Unweekly</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Mahjong/">Mahjong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Osu/">Osu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Game/Touhou/">Touhou</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linguistic/">Linguistic</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Linguistic/Random/">Random</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/">Literature</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/OC-Setting/">OC Setting</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Literature/Segicverse/">Segicverse</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/OBCYSIO/">OBCYSIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Random/">Random</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/School/">School</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tip/">Tip</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Update/">Update</a></li></ul>
     </div>
   </div>
 
@@ -833,7 +890,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Cakeslice/" style="font-size: 10px;">Cakeslice</a> <a href="/tags/Chinese/" style="font-size: 20px;">Chinese</a> <a href="/tags/CreateML/" style="font-size: 10px;">CreateML</a> <a href="/tags/Dev/" style="font-size: 16.36px;">Dev</a> <a href="/tags/English/" style="font-size: 19.09px;">English</a> <a href="/tags/Japanese/" style="font-size: 12.73px;">Japanese</a> <a href="/tags/Java/" style="font-size: 11.82px;">Java</a> <a href="/tags/LSS-Short/" style="font-size: 12.73px;">LSS Short</a> <a href="/tags/Linguistic/" style="font-size: 12.73px;">Linguistic</a> <a href="/tags/Mahjong/" style="font-size: 10px;">Mahjong</a> <a href="/tags/Minecraft/" style="font-size: 10px;">Minecraft</a> <a href="/tags/OBCYSIO/" style="font-size: 13.64px;">OBCYSIO</a> <a href="/tags/OC/" style="font-size: 18.18px;">OC</a> <a href="/tags/OI/" style="font-size: 17.27px;">OI</a> <a href="/tags/Osu/" style="font-size: 10px;">Osu</a> <a href="/tags/Release/" style="font-size: 15.45px;">Release</a> <a href="/tags/Ryujin/" style="font-size: 14.55px;">Ryujin</a> <a href="/tags/School/" style="font-size: 12.73px;">School</a> <a href="/tags/Segicverse/" style="font-size: 11.82px;">Segicverse</a> <a href="/tags/Test-Blog/" style="font-size: 10.91px;">Test Blog</a> <a href="/tags/Touhou/" style="font-size: 12.73px;">Touhou</a> <a href="/tags/ZKY/" style="font-size: 12.73px;">ZKY</a>
+      <a href="/tags/Cakeslice/" style="font-size: 10px;">Cakeslice</a> <a href="/tags/Chinese/" style="font-size: 20px;">Chinese</a> <a href="/tags/CreateML/" style="font-size: 10px;">CreateML</a> <a href="/tags/Dev/" style="font-size: 16.67px;">Dev</a> <a href="/tags/English/" style="font-size: 19.17px;">English</a> <a href="/tags/Japanese/" style="font-size: 15.83px;">Japanese</a> <a href="/tags/Java/" style="font-size: 12.5px;">Java</a> <a href="/tags/LSS-Short/" style="font-size: 12.5px;">LSS Short</a> <a href="/tags/Linguistic/" style="font-size: 15.83px;">Linguistic</a> <a href="/tags/Mahjong/" style="font-size: 10px;">Mahjong</a> <a href="/tags/Minecraft/" style="font-size: 10px;">Minecraft</a> <a href="/tags/OBCYSIO/" style="font-size: 13.33px;">OBCYSIO</a> <a href="/tags/OC/" style="font-size: 18.33px;">OC</a> <a href="/tags/OI/" style="font-size: 17.5px;">OI</a> <a href="/tags/Osu/" style="font-size: 10px;">Osu</a> <a href="/tags/Release/" style="font-size: 15px;">Release</a> <a href="/tags/Ryujin/" style="font-size: 14.17px;">Ryujin</a> <a href="/tags/School/" style="font-size: 12.5px;">School</a> <a href="/tags/Segicverse/" style="font-size: 11.67px;">Segicverse</a> <a href="/tags/Test-Blog/" style="font-size: 10.83px;">Test Blog</a> <a href="/tags/Touhou/" style="font-size: 12.5px;">Touhou</a> <a href="/tags/ZKY/" style="font-size: 12.5px;">ZKY</a>
     </div>
   </div>
 
@@ -842,7 +899,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">September 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">June 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">September 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
     </div>
   </div>
 
@@ -855,23 +912,23 @@
       <ul>
         
           <li>
-            <a href="/2025/03/25/jpn-lexi-4/">日语词汇学笔记[4] ——日语语音历史演变</a>
+            <a href="/2025/06/16/jpn-lexi-10/">日语词汇学笔记[10] ——单词的性质</a>
           </li>
         
           <li>
-            <a href="/2025/03/21/jpn-lexi-3/">日语词汇学笔记[3] ——词汇的分类</a>
+            <a href="/2025/05/30/random-jpn-1/">Random Japanese No. 1 来自西瓜的联想</a>
           </li>
         
           <li>
-            <a href="/2025/03/21/jpn-lexi-2/">日语词汇学笔记[2] ——词语的变化</a>
+            <a href="/2025/05/26/jpn-lexi-e2/">日语词汇学笔记[Ex. 2] ——役割语补充</a>
           </li>
         
           <li>
-            <a href="/2025/03/20/jpn-lexi-1/">日语词汇学笔记[1] ——概述</a>
+            <a href="/2025/05/22/jpn-lexi-9/">日语词汇学笔记[9] ——国字和表记基准</a>
           </li>
         
           <li>
-            <a href="/2024/10/12/rbtree/">一种无递归、无栈、无parent指针的红黑树实现</a>
+            <a href="/2025/04/24/jpn-lexi-e1/">日语词汇学笔记[Ex. 1] ——汉语入声的处理</a>
           </li>
         
       </ul>
