@@ -15,10 +15,10 @@
 <meta property="og:description" content="没错 本文标题就是搞笑的 前言相比较单机游戏，联网多人游戏要考虑的事情就多了：如何在多个玩家之间正确的同步游戏状态、如何处理玩家掉线和重连、如何防止网络延迟给玩家带来的不好体验。因此，编写多人游戏时，其业务逻辑常常比单人游戏更加复杂，许多时候不得不引入许多与游戏逻辑代无关的代码，对于初学者来是很头疼的一件事。 在网络游戏中，有一类游戏不需要特别考虑延迟的影响（相反：枪战、手速、竞技游戏等则对延迟很">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-07-29T01:47:00.000Z">
-<meta property="article:modified_time" content="2026-03-17T14:53:00.858Z">
+<meta property="article:modified_time" content="2026-03-17T14:56:45.147Z">
 <meta property="article:author" content="XGN">
-<meta property="article:tag" content="Chinese">
 <meta property="article:tag" content="Dev">
+<meta property="article:tag" content="Chinese">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="XGN&#39;s blog" type="application/atom+xml">
@@ -357,6 +357,8 @@
         <p>没错 本文标题就是搞笑的</p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>相比较单机游戏，联网多人游戏要考虑的事情就多了：如何在多个玩家之间正确的同步游戏状态、如何处理玩家掉线和重连、如何防止网络延迟给玩家带来的不好体验。因此，编写多人游戏时，其业务逻辑常常比单人游戏更加复杂，许多时候不得不引入许多与游戏逻辑代无关的代码，对于初学者来是很头疼的一件事。</p>
 <p>在网络游戏中，有一类游戏不需要特别考虑延迟的影响（相反：枪战、手速、竞技游戏等则对延迟很重视），比如卡牌游戏、桌面游戏（如大富翁）、互动小游戏（如你画我猜等），一般情况下只要玩家的延迟小于一个回合的规定时间都不会有很大的游戏体验损失。这类游戏相对比较简单，也比较适合初学者实现。本文将针对这一类游戏的通用框架进行设计，希望读者阅读完后可以开发出自己的网络游戏。</p>
+<span id="more"></span>
+
 <h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><p><em>Single Authority Server-Client</em> 架构是指：有一个中央服务器是“王”，掌握着所有的数据，他向客户端发送数据，客户端只是负责渲染（显示）这些数据，如果想要修改数据，需要向服务器“请示”。服务器和客户端是独立的（有的时候可以是完全不同的软件），这样做的好处包括：允许双端分离部署，不需要P2P等其他技术、双端可以使用不同的编程语言书写、具有一定的防止非法客户端或者恶意改装后的客户端的破坏的作用</p>
 <p><em>Remote Procedure Call(RPC)</em> 可以理解为：你可以调用一个远程主机上对应程序的函数，就像调用本地的函数一样轻松。</p>
 <p><em>Websocket</em> 是一种通信技术，允许两方互相向对方发送信息。基于TCP的Websocket会保证信息一定按照顺序到达并且不会丢失。</p>
@@ -421,7 +423,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xiaogenintendo.github.io/2025/07/29/rpc/" data-id="cmmuqfogz008ccgib14zd1sna" class="article-share-link">Share</a>
+      <a data-url="https://xiaogenintendo.github.io/2025/07/29/rpc/" data-id="cmmuqk24d008ar4ib2bn1hgvy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chinese/" rel="tag">Chinese</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dev/" rel="tag">Dev</a></li></ul>
